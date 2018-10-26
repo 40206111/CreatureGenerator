@@ -5,8 +5,6 @@ using UnityEngine;
 public class Gm : MonoBehaviour {
 
     private Creature c1;
-    private GameObject creature2;
-    private GameObject creature3;
 
     private void Creature1()
     {
@@ -65,6 +63,10 @@ public class Gm : MonoBehaviour {
     // Use this for initialization
     void Start () {
         Creature1();
+        foreach(GameObject g in GameObject.FindGameObjectsWithTag("creature"))
+        {
+            g.GetComponent<Metaballs>().Generate(c1);
+        }
 	}
 	
 	// Update is called once per frame
