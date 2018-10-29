@@ -5,11 +5,17 @@ using UnityEngine;
 [RequireComponent (typeof(MeshFilter), typeof(MeshRenderer))]
 public class Metaballs : MonoBehaviour {
 
+    private struct Points
+    {
+        public Vector3 position;
+        public bool inMeta;
+    }
+
     private Mesh mesh;
     private List<Metaball> balls = new List<Metaball>();
     private Vector3 difference = new Vector3();
     private Vector3 startGrid;
-    private List<Vector3> gridPoints = new List<Vector3>();
+    private List<Points> gridPoints = new List<Points>();
 
     [SerializeField]
     private float excess = 2;
@@ -49,7 +55,25 @@ public class Metaballs : MonoBehaviour {
             {
                 for(float z = startGrid.z; z < startGrid.z + difference.z + detail; z += detail)
                 {
-                    gridPoints.Add(new Vector3(x, y, z));
+                    Points p = new Points
+                    {
+                        position = new Vector3(x, y, z)
+                    };
+                    int index = gridPoints.Count - 1;
+
+                    for (int i = 0; i < balls.Count; ++i)
+                    {
+                        Vector3 dir = balls[i].center - p.position;
+                        if (dir.sqrMagnitude <= Mathf.Pow(balls[i].radius, 2))
+                        {
+                           p.inMeta =  true;
+                        }
+                        else
+                        {
+                           p.inMeta =  false;
+                        }
+                    }
+                    gridPoints.Add(p);
                 }
             }
         }
@@ -97,20 +121,22 @@ public class Metaballs : MonoBehaviour {
         {
             return;
         }
-        Gizmos.color = Color.red;
-        Color temp = Gizmos.color;
-        temp.a = 0.2f;
-        Gizmos.color = temp;
-        Gizmos.DrawSphere(gridPoints[0], 0.1f);
 
-        Gizmos.color = Color.black;
-        temp = Gizmos.color;
-        temp.a = 0.2f;
-        Gizmos.color = temp;
         //draw points of creature
-        for (int i = 1; i < gridPoints.Count; i++)
+        for (int i = 0; i < gridPoints.Count; i++)
         {
-            Gizmos.DrawSphere(gridPoints[i], 0.1f);
+            if (gridPoints[i].inMeta)
+            {
+                Gizmos.color = Color.green;
+            }
+            else
+            {
+                Gizmos.color = Color.black;
+                Color temp = Gizmos.color;
+                temp.a = 0.1f;
+                Gizmos.color = temp;
+            }
+            Gizmos.DrawSphere(gridPoints[i].position, 0.1f);
         }
     }
 }

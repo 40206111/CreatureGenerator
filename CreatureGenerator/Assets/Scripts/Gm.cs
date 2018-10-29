@@ -91,6 +91,9 @@ public class Gm : MonoBehaviour {
         for (int i = 0; i < c1.points.Count; i++)
         {
             Gizmos.color = new Color((c1.points[i].x-min.x)/range.x, (c1.points[i].y - min.y)/range.y, (c1.points[i].z - min.z)/range.z);
+            Color temp = Gizmos.color;
+            temp.a = 0.9f;
+            Gizmos.color = temp;
             Gizmos.DrawSphere(c1.points[i], 0.1f);
         }
     }
