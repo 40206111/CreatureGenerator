@@ -5,7 +5,7 @@ using UnityEngine;
 public class Metaball
 {
     public Vector3 center;
-    public float radius = 2.0f;
+    public float radius = 0.3f;
 
     public Metaball(Vector3 c)
     {

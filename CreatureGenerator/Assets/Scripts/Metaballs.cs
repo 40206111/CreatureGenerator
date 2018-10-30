@@ -57,7 +57,8 @@ public class Metaballs : MonoBehaviour {
                 {
                     Points p = new Points
                     {
-                        position = new Vector3(x, y, z)
+                        position = new Vector3(x, y, z),
+                        inMeta = false
                     };
                     int index = gridPoints.Count - 1;
 
@@ -67,10 +68,6 @@ public class Metaballs : MonoBehaviour {
                         if (dir.sqrMagnitude <= Mathf.Pow(balls[i].radius, 2))
                         {
                            p.inMeta =  true;
-                        }
-                        else
-                        {
-                           p.inMeta =  false;
                         }
                     }
                     gridPoints.Add(p);
@@ -121,22 +118,21 @@ public class Metaballs : MonoBehaviour {
         {
             return;
         }
-
         //draw points of creature
         for (int i = 0; i < gridPoints.Count; i++)
         {
             if (gridPoints[i].inMeta)
             {
                 Gizmos.color = Color.green;
+                Gizmos.DrawSphere(gridPoints[i].position, 0.05f);
             }
-            else
-            {
-                Gizmos.color = Color.black;
-                Color temp = Gizmos.color;
-                temp.a = 0.1f;
-                Gizmos.color = temp;
-            }
-            Gizmos.DrawSphere(gridPoints[i].position, 0.1f);
+            //else
+            //{
+            //    Gizmos.color = Color.black;
+            //    Color temp = Gizmos.color;
+            //    temp.a = 0.1f;
+            //    Gizmos.color = temp;
+            //}
         }
     }
 }
