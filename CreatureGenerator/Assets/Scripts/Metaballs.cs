@@ -16,6 +16,7 @@ public class Metaballs : MonoBehaviour {
     private Vector3 difference = new Vector3();
     private Vector3 startGrid;
     private List<Points> gridPoints = new List<Points>();
+    private Vector2 gridItterations = new Vector2(); //x = z itterations, y = y itterations
 
     [SerializeField]
     private float excess = 2;
@@ -53,8 +54,16 @@ public class Metaballs : MonoBehaviour {
         {
             for(float y = startGrid.y; y < startGrid.y + difference.y + detail; y += detail)
             {
-                for(float z = startGrid.z; z < startGrid.z + difference.z + detail; z += detail)
+                if (x == startGrid.x)
                 {
+                    ++gridItterations.y;
+                }
+                for (float z = startGrid.z; z < startGrid.z + difference.z + detail; z += detail)
+                {
+                    if (x == startGrid.x && y == startGrid.y)
+                    {
+                        ++gridItterations.x;
+                    }
                     Points p = new Points
                     {
                         position = new Vector3(x, y, z),
@@ -72,6 +81,101 @@ public class Metaballs : MonoBehaviour {
                     }
                     gridPoints.Add(p);
                 }
+            }
+        }
+        Debug.Log(gridItterations);
+    }
+
+    void GenerateMesh()
+    {
+        GetComponent<MeshFilter>().mesh = mesh = new Mesh();
+        mesh.name = "creature bod";
+        int move = (int)gridItterations.x * (int)gridItterations.y;
+        for (int i = 0; i < gridPoints.Count - gridItterations.x * gridItterations.y; ++i)
+        {
+            if ((i/(int)gridItterations.x) % gridItterations.y == gridItterations.y - 1  || (i + 1) % gridItterations.x == 0)
+            {
+                continue;
+            }
+            Points[] point = new Points[8];
+            point[0] = gridPoints[i];
+            point[1] = gridPoints[i + 1];
+            point[2] = gridPoints[i + (int)gridItterations.x];
+            point[3] = gridPoints[i + (int)gridItterations.x + 1];
+            point[4] = gridPoints[i + move];
+            point[5] = gridPoints[i + move + 1];
+            point[6] = gridPoints[i + move + (int)gridItterations.x];
+            point[7] = gridPoints[i + move + (int)gridItterations.x + 1];
+
+            List<int> theVertices = new List<int>();
+            List<int> notIn = new List<int>();
+            for (int j = 0; j < 8; ++j)
+            {
+                if (point[j].inMeta)
+                {
+                    theVertices.Add(j);
+                }
+                else
+                {
+                    notIn.Add(j);
+                }
+            }
+
+            int count = theVertices.Count;
+            if (count == 0 || count == 8)
+            {
+                continue;
+            }
+
+            switch (count)
+            {
+                case 1:
+                    List<Vector3> triPos = new List<Vector3>();
+
+                    if (theVertices[0] % 2 == 0)
+                    {
+                        Vector3 dir = point[theVertices[0] + 1].position - point[theVertices[0]].position;
+                        float length = dir.magnitude/2;
+                        dir = dir.normalized;
+                        triPos.Add(dir * length);
+                    }
+                    else
+                    {
+                        Vector3 dir = point[theVertices[0] - 1].position - point[theVertices[0]].position;
+                        float length = dir.magnitude / 2;
+                        dir = dir.normalized;
+                        triPos.Add(dir * length);
+                    }
+                    if (theVertices[0] % 4 == 0 || theVertices[0] == 3)
+                    {
+                        Vector3 dir = point[theVertices[0] + 2].position - point[theVertices[0]].position;
+                        float length = dir.magnitude / 2;
+                        dir = dir.normalized;
+                        triPos.Add(dir * length);
+                    }
+                    else
+                    {
+                        Vector3 dir = point[theVertices[0] - 2].position - point[theVertices[0]].position;
+                        float length = dir.magnitude / 2;
+                        dir = dir.normalized;
+                        triPos.Add(dir * length);
+                    }
+                    if (theVertices[0] < 4)
+                    {
+                        Vector3 dir = point[theVertices[0] + 4].position - point[theVertices[0]].position;
+                        float length = dir.magnitude / 2;
+                        dir = dir.normalized;
+                        triPos.Add(dir * length);
+                    }
+                    else
+                    {
+                        Vector3 dir = point[theVertices[0] - 4].position - point[theVertices[0]].position;
+                        float length = dir.magnitude / 2;
+                        dir = dir.normalized;
+                        triPos.Add(dir * length);
+                    }
+                    break;
+
             }
         }
     }
@@ -124,7 +228,7 @@ public class Metaballs : MonoBehaviour {
             if (gridPoints[i].inMeta)
             {
                 Gizmos.color = Color.green;
-                Gizmos.DrawSphere(gridPoints[i].position, 0.05f);
+            Gizmos.DrawSphere(gridPoints[i].position, 0.05f);
             }
             //else
             //{
@@ -133,6 +237,7 @@ public class Metaballs : MonoBehaviour {
             //    temp.a = 0.1f;
             //    Gizmos.color = temp;
             //}
+
         }
     }
 }

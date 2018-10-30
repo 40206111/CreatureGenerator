@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04f1f03c143ac4440b76bad80dec74dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  excess: 0.1
+  excess: 0.2
   detail: 0.2
 --- !u!4 &179259207
 Transform:
