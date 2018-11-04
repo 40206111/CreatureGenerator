@@ -81,10 +81,68 @@ public class MarchingCubes
                         onePoint(point, theVertices[1], ref verts, ref tris, false);
                     }
                     break;
-                case 6:
+                case 3:
                     if (adjIndices[theVertices[0]][0] == theVertices[1] ||
                         adjIndices[theVertices[0]][1] == theVertices[1] ||
                         adjIndices[theVertices[0]][2] == theVertices[1])
+                    {
+                        ajacent(point, new Vector2Int(theVertices[0], theVertices[1]), ref verts, ref tris, false);
+                        onePoint(point, theVertices[2], ref verts, ref tris, false);
+                    }
+                    else if (adjIndices[theVertices[0]][0] == theVertices[2] ||
+                             adjIndices[theVertices[0]][1] == theVertices[2] ||
+                             adjIndices[theVertices[0]][2] == theVertices[2])
+                    {
+                        ajacent(point, new Vector2Int(theVertices[0], theVertices[2]), ref verts, ref tris, false);
+                        onePoint(point, theVertices[1], ref verts, ref tris, false);
+                    }
+                    else if (adjIndices[theVertices[1]][0] == theVertices[2] ||
+                             adjIndices[theVertices[1]][1] == theVertices[2] ||
+                             adjIndices[theVertices[1]][2] == theVertices[2])
+                    {
+                        ajacent(point, new Vector2Int(theVertices[1], theVertices[2]), ref verts, ref tris, false);
+                        onePoint(point, theVertices[0], ref verts, ref tris, false);
+                    }
+                    else
+                    {
+                        onePoint(point, theVertices[0], ref verts, ref tris, false);
+                        onePoint(point, theVertices[1], ref verts, ref tris, false);
+                        onePoint(point, theVertices[2], ref verts, ref tris, false);
+                    }
+                    break;
+                case 5:
+                    if (adjIndices[notIn[0]][0] == notIn[1] ||
+                        adjIndices[notIn[0]][1] == notIn[1] ||
+                        adjIndices[notIn[0]][2] == notIn[1])
+                    {
+                        ajacent(point, new Vector2Int(notIn[0], notIn[1]), ref verts, ref tris, true);
+                        onePoint(point, notIn[2], ref verts, ref tris, true);
+                    }
+                    else if (adjIndices[notIn[0]][0] == notIn[2] ||
+                             adjIndices[notIn[0]][1] == notIn[2] ||
+                             adjIndices[notIn[0]][2] == notIn[2])
+                    {
+                        ajacent(point, new Vector2Int(notIn[0], notIn[2]), ref verts, ref tris, true);
+                        onePoint(point, notIn[1], ref verts, ref tris, true);
+                    }
+                    else if (adjIndices[notIn[1]][0] == notIn[2] ||
+                             adjIndices[notIn[1]][1] == notIn[2] ||
+                             adjIndices[notIn[1]][2] == notIn[2])
+                    {
+                        ajacent(point, new Vector2Int(notIn[1], notIn[2]), ref verts, ref tris, true);
+                        onePoint(point, notIn[0], ref verts, ref tris, true);
+                    }
+                    else
+                    {
+                        onePoint(point, notIn[0], ref verts, ref tris, true);
+                        onePoint(point, notIn[1], ref verts, ref tris, true);
+                        onePoint(point, notIn[2], ref verts, ref tris, true);
+                    }
+                    break;
+                case 6:
+                    if (adjIndices[notIn[0]][0] == notIn[1] ||
+                        adjIndices[notIn[0]][1] == notIn[1] ||
+                        adjIndices[notIn[0]][2] == notIn[1])
                     {
                         ajacent(point, new Vector2Int(notIn[0], notIn[1]), ref verts, ref tris, true);
                     }
@@ -102,7 +160,6 @@ public class MarchingCubes
         }
         mesh.vertices = verts.ToArray();
         mesh.triangles = tris.ToArray();
-        mesh.RecalculateNormals();
     }
 
     private static void ajacent(Points[] point, Vector2Int thePoints, ref List<Vector3> verts, ref List<int> tris, bool reverse)

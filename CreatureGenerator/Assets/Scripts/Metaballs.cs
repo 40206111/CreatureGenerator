@@ -45,19 +45,19 @@ public class Metaballs : MonoBehaviour
         MarchingCubes.Points p1 = new MarchingCubes.Points
         {
             position = new Vector3(0.0f, 0.0f, 0.0f),
-            inMeta = false
+            inMeta = true
         };
         gridPoints.Add(p1);
         MarchingCubes.Points p2 = new MarchingCubes.Points
         {
             position = new Vector3(1.0f, 0.0f, 0.0f),
-            inMeta = false
+            inMeta = true
         };
         gridPoints.Add(p2);
         MarchingCubes.Points p3 = new MarchingCubes.Points
         {
             position = new Vector3(0.0f, 1.0f, 0.0f),
-            inMeta = false
+            inMeta = true
         };
         gridPoints.Add(p3);
         MarchingCubes.Points p4 = new MarchingCubes.Points
@@ -69,13 +69,13 @@ public class Metaballs : MonoBehaviour
         MarchingCubes.Points p5 = new MarchingCubes.Points
         {
             position = new Vector3(0.0f, 0.0f, 1.0f),
-            inMeta = true
+            inMeta = false
         };
         gridPoints.Add(p5);
         MarchingCubes.Points p6 = new MarchingCubes.Points
         {
             position = new Vector3(1.0f, 0.0f, 1.0f),
-            inMeta = true
+            inMeta = false
         };
         gridPoints.Add(p6);
         MarchingCubes.Points p7 = new MarchingCubes.Points
@@ -92,6 +92,7 @@ public class Metaballs : MonoBehaviour
         gridPoints.Add(p8);
         MarchingCubes.GenerateMesh(gridPoints, new Vector2(2, 2), ref mesh);
         //MarchingCubes.GenerateMesh(gridPoints, gridItterations, ref mesh);
+        mesh.RecalculateNormals();
     }
 
     void GenerateGrid()
