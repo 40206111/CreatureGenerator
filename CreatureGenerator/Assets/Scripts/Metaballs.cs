@@ -18,11 +18,6 @@ public class Metaballs : MonoBehaviour
     [SerializeField]
     float detail = 1.0f;
 
-    // Use this for initialization
-    void Start()
-    {
-    }
-
     public void Generate(Creature c)
     {
         Vector3 max = new Vector3(0.0f, 0.0f, 0.0f);
@@ -116,7 +111,6 @@ public class Metaballs : MonoBehaviour
                         position = new Vector3(x, y, z),
                         inMeta = false
                     };
-                    int index = gridPoints.Count - 1;
 
                     for (int i = 0; i < balls.Count; ++i)
                     {

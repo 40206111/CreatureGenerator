@@ -58,10 +58,6 @@ public class MarchingCubes
             }
 
             int count = theVertices.Count;
-            if (count == 0 || count == 8)
-            {
-                continue;
-            }
 
             switch (count)
             {
@@ -155,6 +151,8 @@ public class MarchingCubes
                 case 7:
                     onePoint(point, notIn[0], ref verts, ref tris, true);
                     break;
+                default:
+                    break;
 
             }
         }
@@ -213,70 +211,21 @@ public class MarchingCubes
 
     private static void onePoint(Points[] point, int thePoint, ref List<Vector3> verts, ref List<int> tris, bool reverse)
     {
-        int count = 0;
-        Vector3 triangle = new Vector3();
-        if (thePoint % 2 == 0)
+        int start = 0;
+        int end = 3;
+        int increment = 1;
+        if (reverse)
         {
-            Vector3 dir = point[thePoint + 1].position - point[thePoint].position;
-            float length = dir.magnitude / 2;
-            dir = dir.normalized;
-            verts.Add(point[thePoint].position + dir * length);
-            ++count;
-            triangle.x = verts.Count - 1;
+            start = 2;
+            end = -1;
+            increment = -1;
         }
-        else
+        for (int i = start; i != end; i += increment)
         {
-            Vector3 dir = point[thePoint - 1].position - point[thePoint].position;
-            float length = dir.magnitude / 2;
-            dir = dir.normalized;
-            verts.Add(point[thePoint].position + dir * length);
-            triangle.x = verts.Count - 1;
-        }
-        if (thePoint % 4 == 0 || thePoint % 4 == 1)
-        {
-            Vector3 dir = point[thePoint + 2].position - point[thePoint].position;
-            float length = dir.magnitude / 2;
-            dir = dir.normalized;
-            verts.Add(point[thePoint].position + dir * length);
-            ++count;
-            triangle.y = verts.Count - 1;
-        }
-        else
-        {
-            Vector3 dir = point[thePoint - 2].position - point[thePoint].position;
-            float length = dir.magnitude / 2;
-            dir = dir.normalized;
-            verts.Add(point[thePoint].position + dir * length);
-            triangle.y = verts.Count - 1;
-        }
-        if (thePoint < 4)
-        {
-            Vector3 dir = point[thePoint + 4].position - point[thePoint].position;
-            float length = dir.magnitude / 2;
-            dir = dir.normalized;
-            verts.Add(point[thePoint].position + dir * length);
-            ++count;
-            triangle.z = verts.Count - 1;
-        }
-        else
-        {
-            Vector3 dir = point[thePoint - 4].position - point[thePoint].position;
-            float length = dir.magnitude / 2;
-            dir = dir.normalized;
-            verts.Add(point[thePoint].position + dir * length);
-            triangle.z = verts.Count - 1;
-        }
-        if ((!reverse && count % 2 == 1) || (reverse && count % 2 == 0))
-        {
-            tris.Add((int)triangle.x);
-            tris.Add((int)triangle.y);
-            tris.Add((int)triangle.z);
-        }
-        else
-        {
-            tris.Add((int)triangle.z);
-            tris.Add((int)triangle.y);
-            tris.Add((int)triangle.x);
+            Vector3 dir = point[adjIndices[thePoint][i]].position - point[thePoint].position;
+            dir /= 2;
+            verts.Add(point[thePoint].position + dir);
+            tris.Add(verts.Count - 1);
         }
     }
 }
