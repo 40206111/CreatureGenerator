@@ -58,7 +58,6 @@ public class MarchingCubes
             }
 
             int count = theVertices.Count;
-
             switch (count)
             {
                 case 1:
@@ -78,7 +77,7 @@ public class MarchingCubes
                     }
                     break;
                 case 3:
-                    if (Connected(theVertices, point)[0].x == 3)
+                    if (Connected(theVertices, point)[theVertices[0]].Count == 3)
                     {
 
                     }
@@ -166,10 +165,10 @@ public class MarchingCubes
         mesh.triangles = tris.ToArray();
     }
 
-    private static int ConnectHelp(int start, ref List<int> next, Points[] point, ref List<int> tested)
+    private static List<int> ConnectHelp(int start, ref List<int> next, Points[] point, ref List<int> tested)
     {
+        List<int> output = new List<int>();
         bool meta = point[start].inMeta;
-        int count = 0;
         next.Remove(start);
 
         for (int i = 0; i < 3; ++i)
@@ -177,16 +176,17 @@ public class MarchingCubes
             if (!tested.Contains(adjIndices[start][i]) && point[adjIndices[start][i]].inMeta == meta)
             {
                 tested.Add(adjIndices[start][i]);
-                count += 1 + ConnectHelp(adjIndices[start][i], ref next, point, ref tested);
+                output = ConnectHelp(adjIndices[start][i], ref next, point, ref tested);
+                output.Add(adjIndices[start][i]);
             }
         }
-        return count;
+        return output;
 
     }
 
-    private static List<Vector2> Connected(List<int> theVertices, Points[] point)
+    private static Dictionary<int, List<int>> Connected(List<int> theVertices, Points[] point)
     {
-        List<Vector2> connects = new List<Vector2>();
+        Dictionary<int, List<int>> connects = new Dictionary<int, List<int>>();
         List<int> next = new List<int>(theVertices);
         List<int> tested = new List<int>();
 
@@ -194,7 +194,7 @@ public class MarchingCubes
         while (next.Count > 0)
         {
             start = next[0];
-            connects.Add(new Vector2(ConnectHelp(start, ref next, point, ref tested), start));
+            connects.Add(start, ConnectHelp(start, ref next, point, ref tested));
             tested.Clear();
         }
 
