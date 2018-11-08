@@ -34,59 +34,59 @@ public class Metaballs : MonoBehaviour
         max = new Vector3(max.x + excess, max.y + excess, max.z + excess);
         difference = max - min;
         startGrid = min;
-        //GenerateGrid();
+        GenerateGrid();
         GetComponent<MeshFilter>().mesh = mesh = new Mesh();
         mesh.name = "creature bod";
-        MarchingCubes.Points p0 = new MarchingCubes.Points
-        {
-            position = new Vector3(0.0f, 0.0f, 0.0f),
-            inMeta = true
-        };
-        gridPoints.Add(p0);
-        MarchingCubes.Points p1 = new MarchingCubes.Points
-        {
-            position = new Vector3(1.0f, 0.0f, 0.0f),
-            inMeta = false
-        };
-        gridPoints.Add(p1);
-        MarchingCubes.Points p2 = new MarchingCubes.Points
-        {
-            position = new Vector3(0.0f, 1.0f, 0.0f),
-            inMeta = false
-        };
-        gridPoints.Add(p2);
-        MarchingCubes.Points p3 = new MarchingCubes.Points
-        {
-            position = new Vector3(1.0f, 1.0f, 0.0f),
-            inMeta = false
-        };
-        gridPoints.Add(p3);
-        MarchingCubes.Points p4 = new MarchingCubes.Points
-        {
-            position = new Vector3(0.0f, 0.0f, 1.0f),
-            inMeta = true
-        };
-        gridPoints.Add(p4);
-        MarchingCubes.Points p5 = new MarchingCubes.Points
-        {
-            position = new Vector3(1.0f, 0.0f, 1.0f),
-            inMeta = true
-        };
-        gridPoints.Add(p5);
-        MarchingCubes.Points p6 = new MarchingCubes.Points
-        {
-            position = new Vector3(0.0f, 1.0f, 1.0f),
-            inMeta = true
-        };
-        gridPoints.Add(p6);
-        MarchingCubes.Points p7 = new MarchingCubes.Points
-        {
-            position = new Vector3(1.0f, 1.0f, 1.0f),
-            inMeta = false
-        };
-        gridPoints.Add(p7);
-        MarchingCubes.GenerateMesh(gridPoints, new Vector2(2, 2), ref mesh);
-        //MarchingCubes.GenerateMesh(gridPoints, gridItterations, ref mesh);
+        //MarchingCubes.Points p0 = new MarchingCubes.Points
+        //{
+        //    position = new Vector3(0.0f, 0.0f, 0.0f),
+        //    inMeta = false
+        //};
+        //gridPoints.Add(p0);
+        //MarchingCubes.Points p1 = new MarchingCubes.Points
+        //{
+        //    position = new Vector3(1.0f, 0.0f, 0.0f),
+        //    inMeta = true
+        //};
+        //gridPoints.Add(p1);
+        //MarchingCubes.Points p2 = new MarchingCubes.Points
+        //{
+        //    position = new Vector3(0.0f, 1.0f, 0.0f),
+        //    inMeta = false
+        //};
+        //gridPoints.Add(p2);
+        //MarchingCubes.Points p3 = new MarchingCubes.Points
+        //{
+        //    position = new Vector3(1.0f, 1.0f, 0.0f),
+        //    inMeta = false
+        //};
+        //gridPoints.Add(p3);
+        //MarchingCubes.Points p4 = new MarchingCubes.Points
+        //{
+        //    position = new Vector3(0.0f, 0.0f, 1.0f),
+        //    inMeta = true
+        //};
+        //gridPoints.Add(p4);
+        //MarchingCubes.Points p5 = new MarchingCubes.Points
+        //{
+        //    position = new Vector3(1.0f, 0.0f, 1.0f),
+        //    inMeta = true
+        //};
+        //gridPoints.Add(p5);
+        //MarchingCubes.Points p6 = new MarchingCubes.Points
+        //{
+        //    position = new Vector3(0.0f, 1.0f, 1.0f),
+        //    inMeta = true
+        //};
+        //gridPoints.Add(p6);
+        //MarchingCubes.Points p7 = new MarchingCubes.Points
+        //{
+        //    position = new Vector3(1.0f, 1.0f, 1.0f),
+        //    inMeta = false
+        //};
+        //gridPoints.Add(p7);
+        //MarchingCubes.GenerateMesh(gridPoints, new Vector2(2, 2), ref mesh);
+        MarchingCubes.GenerateMesh(gridPoints, gridItterations, ref mesh);
         mesh.RecalculateNormals();
     }
 
@@ -164,25 +164,25 @@ public class Metaballs : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (gridPoints.Count == 0)
-        {
-            return;
-        }
-        //draw points of creature
-        for (int i = 0; i < gridPoints.Count; i++)
-        {
-            if (gridPoints[i].inMeta)
-            {
-                Gizmos.color = Color.green;
-            }
-            else
-            {
-                Gizmos.color = Color.black;
-                Color temp = Gizmos.color;
-                temp.a = 0.1f;
-                Gizmos.color = temp;
-            }
-            Gizmos.DrawSphere(gridPoints[i].position, 0.05f);
-        }
+        //if (gridPoints.Count == 0)
+        //{
+        //    return;
+        //}
+        ////draw points of creature
+        //for (int i = 0; i < gridPoints.Count; i++)
+        //{
+        //    if (gridPoints[i].inMeta)
+        //    {
+        //        Gizmos.color = Color.green;
+        //    }
+        //    else
+        //    {
+        //        Gizmos.color = Color.black;
+        //        Color temp = Gizmos.color;
+        //        temp.a = 0.1f;
+        //        Gizmos.color = temp;
+        //    }
+        //    Gizmos.DrawSphere(gridPoints[i].position, 0.05f);
+        //}
     }
 }

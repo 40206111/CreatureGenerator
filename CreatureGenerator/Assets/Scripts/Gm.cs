@@ -63,7 +63,9 @@ public class Gm : MonoBehaviour {
     // Use this for initialization
     void Start () {
         Creature1();
-        foreach(GameObject g in GameObject.FindGameObjectsWithTag("creature"))
+        //c1 = new Creature();
+        //c1.points.Add(new Vector3(0.0f, 0.0f, 0.0f));
+        foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
         {
             g.GetComponent<Metaballs>().Generate(c1);
         }
@@ -76,8 +78,8 @@ public class Gm : MonoBehaviour {
 
     private void OnDrawGizmos()
     {
-        // positive extremes (2, 3, 0.5)
-        // negative extremes (-2, -2, -4)
+        //// positive extremes (2, 3, 0.5)
+        //// negative extremes (-2, -2, -4)
         //Vector3 max = new Vector3(2.0f, 3.0f, 0.5f);
         //Vector3 min = new Vector3(-2.0f, -2.0f, -4.0f);
         //Vector3 range = max - min;

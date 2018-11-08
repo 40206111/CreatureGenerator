@@ -13,12 +13,12 @@ public class MarchingCubes
     private static readonly int[][] adjIndices = new int[][]{
         new int[]{1,2,4 }, //0
         new int[]{5,3,0 }, //1
-        new int[]{3,6,0 }, //2
-        new int[]{7,2,1 }, //3
+        new int[]{6,0,3 }, //2
+        new int[]{2,1,7 }, //3
         new int[]{0,6,5 }, //4
         new int[]{4,7,1 }, //5
-        new int[]{2,7,4 }, //6
-        new int[]{6,3,5 }  //7
+        new int[]{7,4,2 }, //6
+        new int[]{3,5,6 }  //7
     };
 
     public static void GenerateMesh(List<Points> gridPoints, Vector2 gridItterations, ref Mesh mesh)
@@ -68,45 +68,45 @@ public class MarchingCubes
                         adjIndices[theVertices[0]][1] == theVertices[1] ||
                         adjIndices[theVertices[0]][2] == theVertices[1])
                     {
-                        ajacent(point, new Vector2Int(theVertices[0], theVertices[1]), ref verts, ref tris, false);
+                        ajacent(point, new Vector2Int(theVertices[0], theVertices[1]), ref verts, ref tris, true);
                     }
                     else
                     {
-                        onePoint(point, theVertices[0], ref verts, ref tris, false);
-                        onePoint(point, theVertices[1], ref verts, ref tris, false);
+                        onePoint(point, theVertices[0], ref verts, ref tris, true);
+                        onePoint(point, theVertices[1], ref verts, ref tris, true);
                     }
                     break;
                 case 3:
                     if (Connected(theVertices, point)[theVertices[0]].Count == 3)
                     {
-                        ThreeTog(point, theVertices, ref verts, ref tris, false);
+                        ThreeTog(point, theVertices, ref verts, ref tris, true);
                     }
                     else if (adjIndices[theVertices[0]][0] == theVertices[1] ||
                         adjIndices[theVertices[0]][1] == theVertices[1] ||
                         adjIndices[theVertices[0]][2] == theVertices[1])
                     {
-                        ajacent(point, new Vector2Int(theVertices[0], theVertices[1]), ref verts, ref tris, false);
-                        onePoint(point, theVertices[2], ref verts, ref tris, false);
+                        ajacent(point, new Vector2Int(theVertices[0], theVertices[1]), ref verts, ref tris, true);
+                        onePoint(point, theVertices[2], ref verts, ref tris, true);
                     }
                     else if (adjIndices[theVertices[0]][0] == theVertices[2] ||
                              adjIndices[theVertices[0]][1] == theVertices[2] ||
                              adjIndices[theVertices[0]][2] == theVertices[2])
                     {
-                        ajacent(point, new Vector2Int(theVertices[0], theVertices[2]), ref verts, ref tris, false);
-                        onePoint(point, theVertices[1], ref verts, ref tris, false);
+                        ajacent(point, new Vector2Int(theVertices[0], theVertices[2]), ref verts, ref tris, true);
+                        onePoint(point, theVertices[1], ref verts, ref tris, true);
                     }
                     else if (adjIndices[theVertices[1]][0] == theVertices[2] ||
                              adjIndices[theVertices[1]][1] == theVertices[2] ||
                              adjIndices[theVertices[1]][2] == theVertices[2])
                     {
-                        ajacent(point, new Vector2Int(theVertices[1], theVertices[2]), ref verts, ref tris, false);
+                        ajacent(point, new Vector2Int(theVertices[1], theVertices[2]), ref verts, ref tris, true);
                         onePoint(point, theVertices[0], ref verts, ref tris, false);
                     }
                     else
                     {
-                        onePoint(point, theVertices[0], ref verts, ref tris, false);
-                        onePoint(point, theVertices[1], ref verts, ref tris, false);
-                        onePoint(point, theVertices[2], ref verts, ref tris, false);
+                        onePoint(point, theVertices[0], ref verts, ref tris, true);
+                        onePoint(point, theVertices[1], ref verts, ref tris, true);
+                        onePoint(point, theVertices[2], ref verts, ref tris, true);
                     }
                     break;
                 case 4:
@@ -117,7 +117,7 @@ public class MarchingCubes
                         case 1:
                             if (Loop(theVertices, point))
                             {
-                                Plane(point, theVertices, ref verts, ref tris, false);
+                                Plane(point, theVertices, ref verts, ref tris);
                             }
                             else
                             {
@@ -162,7 +162,7 @@ public class MarchingCubes
                             {
                                 foreach (KeyValuePair<int, List<int>> c in connected)
                                 {
-                                    ajacent(point, new Vector2Int(c.Key, c.Value[0]), ref verts, ref tris, false);
+                                    ajacent(point, new Vector2Int(c.Key, c.Value[0]), ref verts, ref tris, true);
                                 }
                             }
                             else
@@ -173,12 +173,12 @@ public class MarchingCubes
                                     {
                                         if (c.Key == theVertices[0])
                                         {
-                                            onePoint(point, c.Value[0], ref verts, ref tris, false);
+                                            onePoint(point, c.Value[0], ref verts, ref tris, true);
 
                                         }
                                         else
                                         {
-                                            ThreeTog(point, c.Value, ref verts, ref tris, false);
+                                            ThreeTog(point, c.Value, ref verts, ref tris, true);
                                         }
                                     }
                                 }
@@ -188,21 +188,21 @@ public class MarchingCubes
                                     {
                                         if (c.Key == theVertices[0])
                                         {
-                                            ThreeTog(point, c.Value, ref verts, ref tris, false);
+                                            ThreeTog(point, c.Value, ref verts, ref tris, true);
                                         }
                                         else
                                         {
-                                            onePoint(point, c.Value[0], ref verts, ref tris, false);
+                                            onePoint(point, c.Value[0], ref verts, ref tris, true);
                                         }
                                     }
                                 }
                             }
                             break;
                         default:
-                            onePoint(point, theVertices[0], ref verts, ref tris, false);
-                            onePoint(point, theVertices[1], ref verts, ref tris, false);
-                            onePoint(point, theVertices[2], ref verts, ref tris, false);
-                            onePoint(point, theVertices[3], ref verts, ref tris, false);
+                            onePoint(point, theVertices[0], ref verts, ref tris, true);
+                            onePoint(point, theVertices[1], ref verts, ref tris, true);
+                            onePoint(point, theVertices[2], ref verts, ref tris, true);
+                            onePoint(point, theVertices[3], ref verts, ref tris, true);
                             break;
                     }
 
@@ -210,34 +210,34 @@ public class MarchingCubes
                 case 5:
                     if (Connected(notIn, point)[notIn[0]].Count == 2)
                     {
-                        ThreeTog(point, notIn, ref verts, ref tris, true);
+                        ThreeTog(point, notIn, ref verts, ref tris, false);
                     }
                     else if (adjIndices[notIn[0]][0] == notIn[1] ||
                         adjIndices[notIn[0]][1] == notIn[1] ||
                         adjIndices[notIn[0]][2] == notIn[1])
                     {
-                        ajacent(point, new Vector2Int(notIn[0], notIn[1]), ref verts, ref tris, true);
-                        onePoint(point, notIn[2], ref verts, ref tris, true);
+                        ajacent(point, new Vector2Int(notIn[0], notIn[1]), ref verts, ref tris, false);
+                        onePoint(point, notIn[2], ref verts, ref tris, false);
                     }
                     else if (adjIndices[notIn[0]][0] == notIn[2] ||
                              adjIndices[notIn[0]][1] == notIn[2] ||
                              adjIndices[notIn[0]][2] == notIn[2])
                     {
-                        ajacent(point, new Vector2Int(notIn[0], notIn[2]), ref verts, ref tris, true);
-                        onePoint(point, notIn[1], ref verts, ref tris, true);
+                        ajacent(point, new Vector2Int(notIn[0], notIn[2]), ref verts, ref tris, false);
+                        onePoint(point, notIn[1], ref verts, ref tris, false);
                     }
                     else if (adjIndices[notIn[1]][0] == notIn[2] ||
                              adjIndices[notIn[1]][1] == notIn[2] ||
                              adjIndices[notIn[1]][2] == notIn[2])
                     {
-                        ajacent(point, new Vector2Int(notIn[1], notIn[2]), ref verts, ref tris, true);
-                        onePoint(point, notIn[0], ref verts, ref tris, true);
+                        ajacent(point, new Vector2Int(notIn[1], notIn[2]), ref verts, ref tris, false);
+                        onePoint(point, notIn[0], ref verts, ref tris, false);
                     }
                     else
                     {
-                        onePoint(point, notIn[0], ref verts, ref tris, true);
-                        onePoint(point, notIn[1], ref verts, ref tris, true);
-                        onePoint(point, notIn[2], ref verts, ref tris, true);
+                        onePoint(point, notIn[0], ref verts, ref tris, false);
+                        onePoint(point, notIn[1], ref verts, ref tris, false);
+                        onePoint(point, notIn[2], ref verts, ref tris, false);
                     }
                     break;
                 case 6:
@@ -245,16 +245,16 @@ public class MarchingCubes
                         adjIndices[notIn[0]][1] == notIn[1] ||
                         adjIndices[notIn[0]][2] == notIn[1])
                     {
-                        ajacent(point, new Vector2Int(notIn[0], notIn[1]), ref verts, ref tris, true);
+                        ajacent(point, new Vector2Int(notIn[0], notIn[1]), ref verts, ref tris, false);
                     }
                     else
                     {
-                        onePoint(point, notIn[0], ref verts, ref tris, true);
-                        onePoint(point, notIn[1], ref verts, ref tris, true);
+                        onePoint(point, notIn[0], ref verts, ref tris, false);
+                        onePoint(point, notIn[1], ref verts, ref tris, false);
                     }
                     break;
                 case 7:
-                    onePoint(point, notIn[0], ref verts, ref tris, true);
+                    onePoint(point, notIn[0], ref verts, ref tris, false);
                     break;
                 default:
                     break;
@@ -277,54 +277,84 @@ public class MarchingCubes
 
         List<int> positions = AddPoints(ordered, point, ref verts);
 
-        tris.Add(positions[0]);
-        tris.Add(positions[4]);
         tris.Add(positions[5]);
+        tris.Add(positions[4]);
         tris.Add(positions[0]);
-        tris.Add(positions[1]);
         tris.Add(positions[4]);
         tris.Add(positions[1]);
-        tris.Add(positions[3]);
+        tris.Add(positions[0]);
         tris.Add(positions[4]);
+        tris.Add(positions[2]);
         tris.Add(positions[1]);
         tris.Add(positions[2]);
         tris.Add(positions[3]);
+        tris.Add(positions[1]);
     }
 
     private static void ChainFour(int start, Points[] point, List<int> thePoints, ref List<Vector3> verts, ref List<int> tris)
     {
         List<int> ordered = new List<int>();
         ordered.Add(start);
+        bool change = false;
+
+        if (!point[adjIndices[start][1]].inMeta)
+        {
+            change = true;
+        }
 
         for (int i = 0; i < 3; i++)
         {
-            ordered.Add(adjIndices[start][i]);
+            if (!ordered.Contains(adjIndices[start][i]) && point[adjIndices[start][i]].inMeta)
+            {
+                start = adjIndices[start][i];
+                ordered.Add(start);
+                i = -1;
+            }
         }
 
         List<int> positions = AddPoints(ordered, point, ref verts);
 
-        tris.Add(positions[0]);
-        tris.Add(positions[5]);
-        tris.Add(positions[3]);
-        tris.Add(positions[0]);
-        tris.Add(positions[2]);
-        tris.Add(positions[5]);
-        tris.Add(positions[0]);
-        tris.Add(positions[1]);
-        tris.Add(positions[2]);
-        tris.Add(positions[2]);
-        tris.Add(positions[4]);
-        tris.Add(positions[5]);
+        if (change == false)
+        {
+            tris.Add(positions[2]);
+            tris.Add(positions[0]);
+            tris.Add(positions[4]);
+            tris.Add(positions[0]);
+            tris.Add(positions[3]);
+            tris.Add(positions[4]);
+            tris.Add(positions[3]);
+            tris.Add(positions[5]);
+            tris.Add(positions[4]);
+            tris.Add(positions[0]);
+            tris.Add(positions[1]);
+            tris.Add(positions[3]);
+        }
+        else
+        {
+            tris.Add(positions[3]);
+            tris.Add(positions[1]);
+            tris.Add(positions[0]);
+            tris.Add(positions[4]);
+            tris.Add(positions[1]);
+            tris.Add(positions[3]);
+            tris.Add(positions[5]);
+            tris.Add(positions[4]);
+            tris.Add(positions[3]);
+            tris.Add(positions[4]);
+            tris.Add(positions[2]);
+            tris.Add(positions[1]);
+        }
 
     }
 
-    private static void Plane(Points[] point, List<int> thePoints, ref List<Vector3> verts, ref List<int> tris, bool reverse)
+    private static void Plane(Points[] point, List<int> thePoints, ref List<Vector3> verts, ref List<int> tris)
     {
         int start = thePoints[0];
         int prev = thePoints[0];
         int current = thePoints[0];
         List<int> orderedList = new List<int>();
         orderedList.Add(start);
+        bool reverse = true;
 
         for (int j = 0; j < 3; ++j)
         {
@@ -333,6 +363,10 @@ public class MarchingCubes
             {
                 prev = current;
                 current = adjIndices[current][j];
+                if ((point[current].position - point[prev].position).normalized.y != 0)
+                {
+                    reverse = false;
+                }
                 j = -1;
                 if (current == start)
                 {
