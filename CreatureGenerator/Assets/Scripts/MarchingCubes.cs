@@ -199,43 +199,6 @@ public class MarchingCubes
         }
 
         return connects;
-        //int count = 1;
-        //List<Vector2> connects = new List<Vector2>();
-        //int current = theVertices[0];
-        //bool meta = point[theVertices[0]].inMeta;
-        //List<int> next = new List<int>(theVertices);
-        //next.Remove(current);
-        //List<int> tested = new List<int>();
-
-        //while (true)
-        //{
-        //    for (int i = 0; i < 3; ++i)
-        //    {
-
-        //        if (!tested.Contains(adjIndices[current][i]) && point[adjIndices[current][i]].inMeta == meta)
-        //        {
-        //            tested.Add(current);
-        //            current = adjIndices[current][i];
-        //            ++count;
-        //            i = -1;
-        //            next.Remove(current);
-        //        }
-        //    }
-        //    if (next.Count <= 0)
-        //    {
-        //        connects.Add(new Vector2(count, tested[0]));
-        //        break;
-        //    }
-        //    else
-        //    {
-        //        connects.Add(new Vector2(count, tested[0]));
-        //        tested.Clear();
-        //        current = next[0];
-        //        count = 1;
-        //    }
-        //}
-
-        //return connects;
     }
 
     private static void ajacent(Points[] point, Vector2Int thePoints, ref List<Vector3> verts, ref List<int> tris, bool reverse)
