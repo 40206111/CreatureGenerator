@@ -78,7 +78,11 @@ public class MarchingCubes
                     }
                     break;
                 case 3:
-                    if (adjIndices[theVertices[0]][0] == theVertices[1] ||
+                    if (Connected(theVertices, point)[0].x == 3)
+                    {
+
+                    }
+                    else if (adjIndices[theVertices[0]][0] == theVertices[1] ||
                         adjIndices[theVertices[0]][1] == theVertices[1] ||
                         adjIndices[theVertices[0]][2] == theVertices[1])
                     {
@@ -105,6 +109,8 @@ public class MarchingCubes
                         onePoint(point, theVertices[1], ref verts, ref tris, false);
                         onePoint(point, theVertices[2], ref verts, ref tris, false);
                     }
+                    break;
+                case 4:
                     break;
                 case 5:
                     if (adjIndices[notIn[0]][0] == notIn[1] ||
@@ -158,6 +164,78 @@ public class MarchingCubes
         }
         mesh.vertices = verts.ToArray();
         mesh.triangles = tris.ToArray();
+    }
+
+    private static int ConnectHelp(int start, ref List<int> next, Points[] point, ref List<int> tested)
+    {
+        bool meta = point[start].inMeta;
+        int count = 0;
+        next.Remove(start);
+
+        for (int i = 0; i < 3; ++i)
+        {
+            if (!tested.Contains(adjIndices[start][i]) && point[adjIndices[start][i]].inMeta == meta)
+            {
+                tested.Add(adjIndices[start][i]);
+                count += 1 + ConnectHelp(adjIndices[start][i], ref next, point, ref tested);
+            }
+        }
+        return count;
+
+    }
+
+    private static List<Vector2> Connected(List<int> theVertices, Points[] point)
+    {
+        List<Vector2> connects = new List<Vector2>();
+        List<int> next = new List<int>(theVertices);
+        List<int> tested = new List<int>();
+
+        int start;
+        while (next.Count > 0)
+        {
+            start = next[0];
+            connects.Add(new Vector2(ConnectHelp(start, ref next, point, ref tested), start));
+            tested.Clear();
+        }
+
+        return connects;
+        //int count = 1;
+        //List<Vector2> connects = new List<Vector2>();
+        //int current = theVertices[0];
+        //bool meta = point[theVertices[0]].inMeta;
+        //List<int> next = new List<int>(theVertices);
+        //next.Remove(current);
+        //List<int> tested = new List<int>();
+
+        //while (true)
+        //{
+        //    for (int i = 0; i < 3; ++i)
+        //    {
+
+        //        if (!tested.Contains(adjIndices[current][i]) && point[adjIndices[current][i]].inMeta == meta)
+        //        {
+        //            tested.Add(current);
+        //            current = adjIndices[current][i];
+        //            ++count;
+        //            i = -1;
+        //            next.Remove(current);
+        //        }
+        //    }
+        //    if (next.Count <= 0)
+        //    {
+        //        connects.Add(new Vector2(count, tested[0]));
+        //        break;
+        //    }
+        //    else
+        //    {
+        //        connects.Add(new Vector2(count, tested[0]));
+        //        tested.Clear();
+        //        current = next[0];
+        //        count = 1;
+        //    }
+        //}
+
+        //return connects;
     }
 
     private static void ajacent(Points[] point, Vector2Int thePoints, ref List<Vector3> verts, ref List<int> tris, bool reverse)
