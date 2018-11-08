@@ -52,7 +52,7 @@ public class Metaballs : MonoBehaviour
         MarchingCubes.Points p2 = new MarchingCubes.Points
         {
             position = new Vector3(0.0f, 1.0f, 0.0f),
-            inMeta = true
+            inMeta = false
         };
         gridPoints.Add(p2);
         MarchingCubes.Points p3 = new MarchingCubes.Points
@@ -70,7 +70,7 @@ public class Metaballs : MonoBehaviour
         MarchingCubes.Points p5 = new MarchingCubes.Points
         {
             position = new Vector3(1.0f, 0.0f, 1.0f),
-            inMeta = false
+            inMeta = true
         };
         gridPoints.Add(p5);
         MarchingCubes.Points p6 = new MarchingCubes.Points

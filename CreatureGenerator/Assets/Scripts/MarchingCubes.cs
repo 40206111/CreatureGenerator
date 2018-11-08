@@ -117,8 +117,44 @@ public class MarchingCubes
                         case 1:
                             if (Loop(theVertices, point))
                             {
-                                Debug.Log("test");
                                 Plane(point, theVertices, ref verts, ref tris, false);
+                            }
+                            else
+                            {
+                                int start = 0;
+                                int adj = 0;
+                                bool middle = false;
+
+                                foreach (int v in theVertices)
+                                {
+                                    for (int j = 0; j < 3; j++)
+                                    {
+                                        if (point[adjIndices[v][j]].inMeta)
+                                        {
+                                            ++adj;
+                                        }
+                                    }
+                                    if (adj == 1)
+                                    {
+                                        start = v;
+                                    }
+                                    if (adj == 3)
+                                    {
+                                        start = v;
+                                        middle = true;
+                                        break;
+                                    }
+                                    adj = 0;
+                                }
+
+                                if (middle)
+                                {
+                                    MidFour(start, point, theVertices, ref verts, ref tris);
+                                }
+                                else
+                                {
+                                    ChainFour(start, point, theVertices, ref verts, ref tris);
+                                }
                             }
                             break;
                         case 2:
@@ -227,6 +263,59 @@ public class MarchingCubes
         }
         mesh.vertices = verts.ToArray();
         mesh.triangles = tris.ToArray();
+    }
+
+    private static void MidFour(int middle, Points[] point, List<int> thePoints, ref List<Vector3> verts, ref List<int> tris)
+    {
+        List<int> ordered = new List<int>();
+        ordered.Add(middle);
+
+        for (int i = 0; i < 3; i++)
+        {
+            ordered.Add(adjIndices[middle][i]);
+        }
+
+        List<int> positions = AddPoints(ordered, point, ref verts);
+
+        tris.Add(positions[0]);
+        tris.Add(positions[4]);
+        tris.Add(positions[5]);
+        tris.Add(positions[0]);
+        tris.Add(positions[1]);
+        tris.Add(positions[4]);
+        tris.Add(positions[1]);
+        tris.Add(positions[3]);
+        tris.Add(positions[4]);
+        tris.Add(positions[1]);
+        tris.Add(positions[2]);
+        tris.Add(positions[3]);
+    }
+
+    private static void ChainFour(int start, Points[] point, List<int> thePoints, ref List<Vector3> verts, ref List<int> tris)
+    {
+        List<int> ordered = new List<int>();
+        ordered.Add(start);
+
+        for (int i = 0; i < 3; i++)
+        {
+            ordered.Add(adjIndices[start][i]);
+        }
+
+        List<int> positions = AddPoints(ordered, point, ref verts);
+
+        tris.Add(positions[0]);
+        tris.Add(positions[5]);
+        tris.Add(positions[3]);
+        tris.Add(positions[0]);
+        tris.Add(positions[2]);
+        tris.Add(positions[5]);
+        tris.Add(positions[0]);
+        tris.Add(positions[1]);
+        tris.Add(positions[2]);
+        tris.Add(positions[2]);
+        tris.Add(positions[4]);
+        tris.Add(positions[5]);
+
     }
 
     private static void Plane(Points[] point, List<int> thePoints, ref List<Vector3> verts, ref List<int> tris, bool reverse)
