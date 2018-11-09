@@ -18,17 +18,83 @@ public class Metaballs : MonoBehaviour
     [SerializeField]
     float detail = 1.0f;
 
+    private void MakeBalls(Creature c)
+    {
+        balls.Add(new Metaball(c.Start, 0.4f, 0.5f));
+        foreach (List<Vector3> l in c.Points["Torso"])
+        {
+            foreach (Vector3 p in l)
+            {
+                balls.Add(new Metaball(p, 0.5f, 0.5f));
+            }
+        }
+        foreach (List<Vector3> l in c.Points["Head"])
+        {
+            foreach (Vector3 p in l)
+            {
+                balls.Add(new Metaball(p, 0.4f, 0.2f));
+            }
+        }
+        foreach (List<Vector3> l in c.Points["Neck"])
+        {
+            foreach (Vector3 p in l)
+            {
+                balls.Add(new Metaball(p, 0.1f, 0.2f));
+            }
+        }
+        foreach (List<Vector3> l in c.Points["Arm"])
+        {
+            for (int i = 0; i < l.Count; ++i)
+            {
+                if (i != 0)
+                {
+                    balls.Add(new Metaball(l[i] + ((l[i - 1] - l[i]) / 2), 0.2f, 0.5f));
+
+                }
+                balls.Add(new Metaball(l[i], 0.2f, 0.5f));
+            }
+        }
+        foreach (List<Vector3> l in c.Points["Leg"])
+        {
+            for (int i = 0; i < l.Count; ++i)
+            {
+                if (i != 0)
+                {
+                    balls.Add(new Metaball(l[i] + ((l[i - 1] - l[i]) / 2), 0.3f, 0.3f));
+
+                }
+                balls.Add(new Metaball(l[i], 0.3f, 0.3f));
+            }
+        }
+        foreach (List<Vector3> l in c.Points["Spine"])
+        {
+            foreach (Vector3 p in l)
+            {
+                balls.Add(new Metaball(p, 0.4f, 1.2f));
+            }
+        }
+
+        foreach (List<Vector3> l in c.Points["Tail"])
+        {
+            for (int i = 0; i < l.Count; ++i)
+            {
+                if (i != 0)
+                {
+                    balls.Add(new Metaball(l[i] + ((l[i-1] - l[i])/2), 0.15f, 0.4f));
+
+                }
+                balls.Add(new Metaball(l[i], 0.15f, 0.4f));
+            }
+        }
+
+    }
+
     public void Generate(Creature c)
     {
         Vector3 max = new Vector3(0.0f, 0.0f, 0.0f);
         Vector3 min = new Vector3(0.0f, 0.0f, 0.0f);
 
-        for (int i = 0; i < c.points.Count; i++)
-        {
-            balls.Add(new Metaball(c.points[i]));
-            max = Max(c.points[i], max);
-            min = Min(c.points[i], min);
-        }
+        MakeBalls(c);
 
         min = new Vector3(min.x - excess, min.y - excess, min.z - excess);
         max = new Vector3(max.x + excess, max.y + excess, max.z + excess);
@@ -37,55 +103,6 @@ public class Metaballs : MonoBehaviour
         GenerateGrid();
         GetComponent<MeshFilter>().mesh = mesh = new Mesh();
         mesh.name = "creature bod";
-        //MarchingCubes.Points p0 = new MarchingCubes.Points
-        //{
-        //    position = new Vector3(0.0f, 0.0f, 0.0f),
-        //    inMeta = true
-        //};
-        //gridPoints.Add(p0);
-        //MarchingCubes.Points p1 = new MarchingCubes.Points
-        //{
-        //    position = new Vector3(1.0f, 0.0f, 0.0f),
-        //    inMeta = false
-        //};
-        //gridPoints.Add(p1);
-        //MarchingCubes.Points p2 = new MarchingCubes.Points
-        //{
-        //    position = new Vector3(0.0f, 1.0f, 0.0f),
-        //    inMeta = true
-        //};
-        //gridPoints.Add(p2);
-        //MarchingCubes.Points p3 = new MarchingCubes.Points
-        //{
-        //    position = new Vector3(1.0f, 1.0f, 0.0f),
-        //    inMeta = true
-        //};
-        //gridPoints.Add(p3);
-        //MarchingCubes.Points p4 = new MarchingCubes.Points
-        //{
-        //    position = new Vector3(0.0f, 0.0f, 1.0f),
-        //    inMeta = true
-        //};
-        //gridPoints.Add(p4);
-        //MarchingCubes.Points p5 = new MarchingCubes.Points
-        //{
-        //    position = new Vector3(1.0f, 0.0f, 1.0f),
-        //    inMeta = false
-        //};
-        //gridPoints.Add(p5);
-        //MarchingCubes.Points p6 = new MarchingCubes.Points
-        //{
-        //    position = new Vector3(0.0f, 1.0f, 1.0f),
-        //    inMeta = false
-        //};
-        //gridPoints.Add(p6);
-        //MarchingCubes.Points p7 = new MarchingCubes.Points
-        //{
-        //    position = new Vector3(1.0f, 1.0f, 1.0f),
-        //    inMeta = false
-        //};
-        //gridPoints.Add(p7);
-        //MarchingCubes.GenerateMesh(gridPoints, new Vector2(2, 2), ref mesh);
         MarchingCubes.GenerateMesh(gridPoints, gridItterations, ref mesh);
         mesh.RecalculateNormals();
     }
@@ -122,9 +139,7 @@ public class Metaballs : MonoBehaviour
                             float over = length - balls[i].radius;
                             if (over > 0)
                             {
-                                //blobbier version
-                                //connected += Mathf.Sin((1 - (over / balls[i].spread)) * Mathf.PI/2);
-                                connected +=1 - (over / balls[i].spread);
+                                connected += Mathf.Pow(1 - (over / balls[i].spread), 2);
                             }
                             else
                             {
@@ -176,30 +191,5 @@ public class Metaballs : MonoBehaviour
             output.z = test.z;
         }
         return output;
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (true) { return; }
-        if (gridPoints.Count == 0)
-        {
-            return;
-        }
-        //draw points of creature
-        for (int i = 0; i < gridPoints.Count; i++)
-        {
-            if (gridPoints[i].inMeta)
-            {
-                Gizmos.color = Color.green;
-            Gizmos.DrawSphere(gridPoints[i].position, 0.05f);
-            }
-            else
-            {
-                Gizmos.color = Color.black;
-                Color temp = Gizmos.color;
-                temp.a = 0.1f;
-                Gizmos.color = temp;
-            }
-        }
     }
 }
