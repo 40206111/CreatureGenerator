@@ -267,8 +267,10 @@ public class MarchingCubes
 
     private static void MidFour(int middle, Points[] point, List<int> thePoints, ref List<Vector3> verts, ref List<int> tris)
     {
-        List<int> ordered = new List<int>();
-        ordered.Add(middle);
+        List<int> ordered = new List<int>
+        {
+            middle
+        };
 
         for (int i = 0; i < 3; i++)
         {
@@ -293,14 +295,11 @@ public class MarchingCubes
 
     private static void ChainFour(int start, Points[] point, List<int> thePoints, ref List<Vector3> verts, ref List<int> tris)
     {
-        List<int> ordered = new List<int>();
-        ordered.Add(start);
-        bool change = false;
-
-        if (!point[adjIndices[start][1]].inMeta)
+        List<int> ordered = new List<int>
         {
-            change = true;
-        }
+            start
+        };
+
 
         for (int i = 0; i < 3; i++)
         {
@@ -312,39 +311,101 @@ public class MarchingCubes
             }
         }
 
-        List<int> positions = AddPoints(ordered, point, ref verts);
+        bool change = true;
+        bool once = false;
 
-        if (change == false)
+        for (int i = 0; i < 3; ++i)
         {
-            tris.Add(positions[2]);
-            tris.Add(positions[0]);
-            tris.Add(positions[4]);
-            tris.Add(positions[0]);
-            tris.Add(positions[3]);
-            tris.Add(positions[4]);
+            if (once && point[adjIndices[thePoints[start]][i]].inMeta == point[thePoints[start]].inMeta)
+            {
+                break;
+            }
+            else if (once)
+            {
+                change = false;
+            }
+            else if (point[adjIndices[thePoints[start]][i]].inMeta == point[thePoints[start]].inMeta)
+            {
+                once = true;
+            }
+        }
+
+        Points point1;
+        Points point2;
+        List<int> positions = new List<int>();
+        bool go = false;
+        int startInt = 0;
+
+        for (int i = 0; i < ordered.Count; ++i)
+        {
+            point1 = point[ordered[i]];
+            for (int j = 0; j < 3; ++j)
+            {
+                point2 = point[adjIndices[ordered[i]][(startInt + j) % 3]];
+                if (point1.inMeta != point2.inMeta)
+                {
+                    if (go)
+                    {
+                        Vector3 dir = point2.position - point1.position;
+                        dir = point1.position + dir / 2;
+                        if (verts.Contains(dir))
+                        {
+                            positions.Add(verts.IndexOf(dir));
+                        }
+                        else
+                        {
+                            verts.Add(dir);
+                            positions.Add(verts.Count - 1);
+                        }
+                    }
+                }
+                else if (!go)
+                {
+                    go = true;
+                    startInt = j;
+                    j = -1;
+                }
+            }
+            startInt = 0;
+            go = false;
+        }
+
+        if (!change)
+        {
             tris.Add(positions[3]);
             tris.Add(positions[5]);
             tris.Add(positions[4]);
-            tris.Add(positions[0]);
+
             tris.Add(positions[1]);
+            tris.Add(positions[3]);
+            tris.Add(positions[4]);
+
+            tris.Add(positions[2]);
+            tris.Add(positions[1]);
+            tris.Add(positions[4]);
+
+            tris.Add(positions[1]);
+            tris.Add(positions[0]);
             tris.Add(positions[3]);
         }
         else
         {
-            tris.Add(positions[3]);
-            tris.Add(positions[1]);
-            tris.Add(positions[0]);
             tris.Add(positions[4]);
-            tris.Add(positions[1]);
-            tris.Add(positions[3]);
             tris.Add(positions[5]);
+            tris.Add(positions[3]);
+
             tris.Add(positions[4]);
             tris.Add(positions[3]);
+            tris.Add(positions[1]);
+
             tris.Add(positions[4]);
+            tris.Add(positions[1]);
             tris.Add(positions[2]);
+
+            tris.Add(positions[3]);
+            tris.Add(positions[0]);
             tris.Add(positions[1]);
         }
-
     }
 
     private static void Plane(Points[] point, List<int> thePoints, ref List<Vector3> verts, ref List<int> tris)
@@ -352,8 +413,10 @@ public class MarchingCubes
         int start = thePoints[0];
         int prev = thePoints[0];
         int current = thePoints[0];
-        List<int> orderedList = new List<int>();
-        orderedList.Add(start);
+        List<int> orderedList = new List<int>
+        {
+            start
+        };
         bool reverse = true;
 
         for (int j = 0; j < 3; ++j)
@@ -448,8 +511,10 @@ public class MarchingCubes
             once = false;
             test--;
         }
-        List<int> orderedPoints = new List<int>();
-        orderedPoints.Add(thePoints[middle]);
+        List<int> orderedPoints = new List<int>
+        {
+            thePoints[middle]
+        };
         int second = 0;
         int third = 0;
         bool change = true;

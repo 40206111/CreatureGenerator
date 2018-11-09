@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   excess: 2
-  detail: 0.1
+  detail: 0.05
 --- !u!4 &179259207
 Transform:
   m_ObjectHideFlags: 0
