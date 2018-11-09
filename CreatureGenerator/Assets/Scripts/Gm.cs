@@ -6,6 +6,7 @@ public class Gm : MonoBehaviour {
 
     private Creature c1;
     private Creature c2;
+    private Creature c3;
 
     private void Creature1()
     {
@@ -143,12 +144,60 @@ public class Gm : MonoBehaviour {
         c2.Points["Tail"][0].Add(new Vector3(0.0f, 2.5f, -1.5f));
     }
 
+    private void Creature3()
+    {
+        c3 = new Creature();
+        //start point (crotch)
+        c3.Start = new Vector3(0.0f, 0.0f, 0.0f);
+
+        //neck
+        c3.Points["Neck"].Add(new List<Vector3>());
+        c3.Points["Neck"][0].Add(new Vector3(0.0f, 0.5f, 0.0f));   //neck
+        c3.Points["Neck"][0].Add(new Vector3(0.0f, 0.75f, -0.1f));   //neck
+        c3.Points["Neck"][0].Add(new Vector3(0.0f, 1.0f, -0.2f));   //neck
+
+        //head
+        c3.Points["Head"].Add(new List<Vector3>());
+        c3.Points["Head"][0].Add(new Vector3(0.0f, 1.0f, 0.2f));   //head
+        c3.Points["Head"][0].Add(new Vector3(0.0f, 1.5f, 0.2f));   //head
+        c3.Points["Head"][0].Add(new Vector3(0.0f, 1.0f, 0.5f));   //head
+        c3.Points["Head"][0].Add(new Vector3(0.0f, 1.0f, 1.0f));   //head
+
+        //Leg1
+        c3.Points["Leg"].Add(new List<Vector3>());
+        c3.Points["Leg"].Add(new List<Vector3>());
+        c3.Points["Leg"][0].Add(new Vector3(-0.5f, 0.0f, 0.0f));  //hip  front 1
+        c3.Points["Leg"][1].Add(new Vector3(0.5f, 0.0f, 0.0f));   //hip  front 2
+        c3.Points["Leg"][0].Add(new Vector3(-1.0f, -1.0f, 0.0f));  //knee front 1
+        c3.Points["Leg"][1].Add(new Vector3(1.0f, -1.0f, 0.0f));  //knee front 2
+        c3.Points["Leg"][0].Add(new Vector3(-1.1f, -2.0f, 0.0f));  //foot front 1
+        c3.Points["Leg"][1].Add(new Vector3(1.25f, -2.0f, 0.0f));  //foot front 2
+
+        //Legs 2
+        c3.Points["Leg"].Add(new List<Vector3>());
+        c3.Points["Leg"].Add(new List<Vector3>());
+        c3.Points["Spine"].Add(new List<Vector3>());
+        c3.Points["Spine"][0].Add(new Vector3(0.0f, -0.2f, -0.5f));   //spine
+        c3.Points["Spine"][0].Add(new Vector3(0.0f, -0.4f, -1.5f));   //spine
+        c3.Points["Spine"][0].Add(new Vector3(0.0f, -0.2f, -2.5f));   //spine
+        c3.Points["Leg"][2].Add(new Vector3(-0.5f, -0.25f, -2.5f));   //hip  front 2
+        c3.Points["Leg"][3].Add(new Vector3(0.5f, -0.25f, -2.5f));   //hip  front 2
+        c3.Points["Leg"][2].Add(new Vector3(-1.0f, -1.0f, -2.5f));  //knee front 1
+        c3.Points["Leg"][3].Add(new Vector3(1.0f, -1.0f, -2.5f));  //knee front 2
+        c3.Points["Leg"][2].Add(new Vector3(-1.25f, -2.0f, -2.5f));  //foot front 1
+        c3.Points["Leg"][3].Add(new Vector3(1.1f, -2.0f, -2.5f));  //foot front 2
+
+        //tail
+        c3.Points["Tail"].Add(new List<Vector3>());
+        c3.Points["Tail"][0].Add(new Vector3(0.0f, 0.5f, -3.0f));
+    }
+
     // Use this for initialization
     void Start () {
-        Creature2();
+        Creature3();
         foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
         {
-            g.GetComponent<Metaballs>().Generate(c2);
+            g.GetComponent<Metaballs>().Generate(c3);
         }
 	}
 	
