@@ -93,7 +93,6 @@ public class Metaballs : MonoBehaviour
     {
         Vector3 max = new Vector3(0.0f, 0.0f, 0.0f);
         Vector3 min = new Vector3(0.0f, 0.0f, 0.0f);
-
         MakeBalls(c);
 
         min = new Vector3(min.x - excess, min.y - excess, min.z - excess);

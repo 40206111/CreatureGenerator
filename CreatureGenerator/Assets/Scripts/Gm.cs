@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Gm : MonoBehaviour {
 
+    [SerializeField]
+    private int generate = 1;
+
     private Creature c1;
     private Creature c2;
     private Creature c3;
@@ -194,17 +197,36 @@ public class Gm : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        Creature1();
+        Creature2();
         Creature3();
-        foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
+        if (generate == 1)
         {
-            g.GetComponent<Metaballs>().Generate(c3);
+            foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
+            {
+                g.GetComponent<Metaballs>().Generate(c1);
+            }
         }
-	}
+        else if (generate == 2)
+        {
+            foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
+            {
+                g.GetComponent<Metaballs>().Generate(c2);
+            }
+        }
+        else if (generate == 3)
+        {
+            foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
+            {
+                g.GetComponent<Metaballs>().Generate(c3);
+            }
+        }
+    }
 	
 	// Update is called once per frame
-	void Update () {
-		
-	}
+	void Update ()
+    {
+    }
 
     private void OnDrawGizmos()
     {

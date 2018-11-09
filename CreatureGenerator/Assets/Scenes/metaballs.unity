@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   excess: 4.5
-  detail: 0.1
+  detail: 0.2
 --- !u!4 &179259207
 Transform:
   m_ObjectHideFlags: 0
@@ -380,6 +380,11 @@ Prefab:
     - target: {fileID: 4991836395031858, guid: d9a62d071fbd3fa40be979da8a9dc437, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114651135501392234, guid: d9a62d071fbd3fa40be979da8a9dc437,
+        type: 2}
+      propertyPath: generate
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9a62d071fbd3fa40be979da8a9dc437, type: 2}
