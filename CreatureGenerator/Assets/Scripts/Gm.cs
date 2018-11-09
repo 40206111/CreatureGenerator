@@ -65,6 +65,7 @@ public class Gm : MonoBehaviour {
         Creature1();
         //c1 = new Creature();
         //c1.points.Add(new Vector3(0.0f, 0.0f, 0.0f));
+        //c1.points.Add(new Vector3(1.0f, 0.0f, 0.0f));
         foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
         {
             g.GetComponent<Metaballs>().Generate(c1);
@@ -80,23 +81,23 @@ public class Gm : MonoBehaviour {
     {
         //// positive extremes (2, 3, 0.5)
         //// negative extremes (-2, -2, -4)
-        //Vector3 max = new Vector3(2.0f, 3.0f, 0.5f);
-        //Vector3 min = new Vector3(-2.0f, -2.0f, -4.0f);
-        //Vector3 range = max - min;
+        Vector3 max = new Vector3(2.0f, 3.0f, 0.5f);
+        Vector3 min = new Vector3(-2.0f, -2.0f, -4.0f);
+        Vector3 range = max - min;
 
-        ////check if points exsist
-        //if (c1 == null)
-        //{
-        //    return;
-        //}
-        ////draw points of creature
-        //for (int i = 0; i < c1.points.Count; i++)
-        //{
-        //    Gizmos.color = new Color((c1.points[i].x - min.x) / range.x, (c1.points[i].y - min.y) / range.y, (c1.points[i].z - min.z) / range.z);
-        //    Color temp = Gizmos.color;
-        //    temp.a = 0.9f;
-        //    Gizmos.color = temp;
-        //    Gizmos.DrawSphere(c1.points[i], 0.1f);
-        //}
+        //check if points exsist
+        if (c1 == null)
+        {
+            return;
+        }
+        //draw points of creature
+        for (int i = 0; i < c1.points.Count; i++)
+        {
+            Gizmos.color = new Color((c1.points[i].x - min.x) / range.x, (c1.points[i].y - min.y) / range.y, (c1.points[i].z - min.z) / range.z);
+            Color temp = Gizmos.color;
+            temp.a = 0.9f;
+            Gizmos.color = temp;
+            Gizmos.DrawSphere(c1.points[i], 0.1f);
+        }
     }
 }

@@ -61,7 +61,7 @@ public class MarchingCubes
             switch (count)
             {
                 case 1:
-                    onePoint(point, theVertices[0], ref verts, ref tris, false);
+                    onePoint(point, theVertices[0], ref verts, ref tris, true);
                     break;
                 case 2:
                     if (adjIndices[theVertices[0]][0] == theVertices[1] ||
@@ -100,7 +100,7 @@ public class MarchingCubes
                              adjIndices[theVertices[1]][2] == theVertices[2])
                     {
                         ajacent(point, new Vector2Int(theVertices[1], theVertices[2]), ref verts, ref tris, true);
-                        onePoint(point, theVertices[0], ref verts, ref tris, false);
+                        onePoint(point, theVertices[0], ref verts, ref tris, true);
                     }
                     else
                     {
@@ -208,7 +208,7 @@ public class MarchingCubes
 
                     break;
                 case 5:
-                    if (Connected(notIn, point)[notIn[0]].Count == 2)
+                    if (Connected(notIn, point)[notIn[0]].Count == 3)
                     {
                         ThreeTog(point, notIn, ref verts, ref tris, false);
                     }
@@ -459,6 +459,7 @@ public class MarchingCubes
             if (once && point[adjIndices[thePoints[middle]][i]].inMeta == point[thePoints[middle]].inMeta)
             {
                 third = adjIndices[thePoints[middle]][i];
+                break;
             }
             else if (once)
             {
@@ -483,7 +484,45 @@ public class MarchingCubes
         }
 
 
-        List<int> positions = AddPoints(orderedPoints, point, ref verts);
+        Points point1;
+        Points point2;
+        List<int> positions = new List<int>();
+        bool start = false;
+        int startInt = 0;
+
+        for (int i = 0; i < orderedPoints.Count; ++i)
+        {
+            point1 = point[orderedPoints[i]];
+            for (int j = 0; j < 3; ++j)
+            {
+                point2 = point[adjIndices[orderedPoints[i]][(startInt + j) % 3]];
+                if (point1.inMeta != point2.inMeta)
+                {
+                    if (start)
+                    {
+                        Vector3 dir = point2.position - point1.position;
+                        dir = point1.position + dir / 2;
+                        if (verts.Contains(dir))
+                        {
+                            positions.Add(verts.IndexOf(dir));
+                        }
+                        else
+                        {
+                            verts.Add(dir);
+                            positions.Add(verts.Count - 1);
+                        }
+                    }
+                }
+                else if (!start)
+                {
+                    start = true;
+                    startInt = j;
+                    j = -1;
+                }
+            }
+            startInt = 0;
+            start = false;
+        }
 
         if (reverse)
         {

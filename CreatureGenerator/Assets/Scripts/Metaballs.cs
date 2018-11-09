@@ -46,7 +46,7 @@ public class Metaballs : MonoBehaviour
         //MarchingCubes.Points p1 = new MarchingCubes.Points
         //{
         //    position = new Vector3(1.0f, 0.0f, 0.0f),
-        //    inMeta = true
+        //    inMeta = false
         //};
         //gridPoints.Add(p1);
         //MarchingCubes.Points p2 = new MarchingCubes.Points
@@ -58,7 +58,7 @@ public class Metaballs : MonoBehaviour
         //MarchingCubes.Points p3 = new MarchingCubes.Points
         //{
         //    position = new Vector3(1.0f, 1.0f, 0.0f),
-        //    inMeta = false
+        //    inMeta = true
         //};
         //gridPoints.Add(p3);
         //MarchingCubes.Points p4 = new MarchingCubes.Points
@@ -82,7 +82,7 @@ public class Metaballs : MonoBehaviour
         //MarchingCubes.Points p7 = new MarchingCubes.Points
         //{
         //    position = new Vector3(1.0f, 1.0f, 1.0f),
-        //    inMeta = false
+        //    inMeta = true
         //};
         //gridPoints.Add(p7);
         //MarchingCubes.GenerateMesh(gridPoints, new Vector2(2, 2), ref mesh);
@@ -111,11 +111,27 @@ public class Metaballs : MonoBehaviour
                         position = new Vector3(x, y, z),
                         inMeta = false
                     };
-
+                    float connected = 0;
                     for (int i = 0; i < balls.Count; ++i)
                     {
                         Vector3 dir = balls[i].center - p.position;
-                        if (dir.sqrMagnitude <= Mathf.Pow(balls[i].radius, 2))
+                        float length = dir.magnitude;
+
+                        if (length <= (balls[i].radius + balls[i].spread))
+                        {
+                            float over = length - balls[i].radius;
+                            if (over > 0)
+                            {
+                                //blobbier version
+                                //connected += Mathf.Sin((1 - (over / balls[i].spread)) * Mathf.PI/2);
+                                connected +=1 - (over / balls[i].spread);
+                            }
+                            else
+                            {
+                                connected += 1;
+                            }
+                        }
+                        if (connected >= 1)
                         {
                             p.inMeta = true;
                         }
@@ -164,25 +180,26 @@ public class Metaballs : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        //if (gridPoints.Count == 0)
-        //{
-        //    return;
-        //}
-        ////draw points of creature
-        //for (int i = 0; i < gridPoints.Count; i++)
-        //{
-        //    if (gridPoints[i].inMeta)
-        //    {
-        //        Gizmos.color = Color.green;
-        //    }
-        //    else
-        //    {
-        //        Gizmos.color = Color.black;
-        //        Color temp = Gizmos.color;
-        //        temp.a = 0.1f;
-        //        Gizmos.color = temp;
-        //    }
-        //    Gizmos.DrawSphere(gridPoints[i].position, 0.05f);
-        //}
+        if (true) { return; }
+        if (gridPoints.Count == 0)
+        {
+            return;
+        }
+        //draw points of creature
+        for (int i = 0; i < gridPoints.Count; i++)
+        {
+            if (gridPoints[i].inMeta)
+            {
+                Gizmos.color = Color.green;
+            }
+            else
+            {
+                Gizmos.color = Color.black;
+                Color temp = Gizmos.color;
+                temp.a = 0.1f;
+                Gizmos.color = temp;
+            }
+            Gizmos.DrawSphere(gridPoints[i].position, 0.05f);
+        }
     }
 }
