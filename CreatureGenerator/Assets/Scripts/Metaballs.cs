@@ -39,7 +39,7 @@ public class Metaballs : MonoBehaviour
         {
             foreach (Vector3 p in l)
             {
-                balls.Add(new Metaball(p, 0.1f, 0.2f));
+                balls.Add(new Metaball(p, 0.2f, 0.3f));
             }
         }
         foreach (List<Vector3> l in c.Points["Arm"])
