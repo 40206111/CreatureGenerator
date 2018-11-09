@@ -2,19 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gm : MonoBehaviour {
-
-    [SerializeField]
-    private int generate = 1;
-
+public class Gm : MonoBehaviour
+{
+    //Creatures
     private Creature c1;
     private Creature c2;
     private Creature c3;
 
+    //Add points for Creature1
     private void Creature1()
     {
         c1 = new Creature();
-        //start point (crotch)
+        //start point
         c1.Start = new Vector3(0.0f, 0.0f, 0.0f);
 
         //torso
@@ -92,10 +91,11 @@ public class Gm : MonoBehaviour {
         c1.Points["Tail"][0].Add(new Vector3(0.0f, 1.0f, -4.0f));
     }
 
+    //Add points for creature 2
     private void Creature2()
     {
         c2 = new Creature();
-        //start point (crotch)
+        //start point
         c2.Start = new Vector3(0.0f, 0.0f, 0.0f);
 
         //torso
@@ -147,10 +147,11 @@ public class Gm : MonoBehaviour {
         c2.Points["Tail"][0].Add(new Vector3(0.0f, 2.5f, -1.5f));
     }
 
+    //Add points for Creature 3
     private void Creature3()
     {
         c3 = new Creature();
-        //start point (crotch)
+        //start point
         c3.Start = new Vector3(0.0f, 0.0f, 0.0f);
 
         //neck
@@ -196,59 +197,39 @@ public class Gm : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         Creature1();
         Creature2();
         Creature3();
-        if (generate == 1)
+    }
+
+    private void Update()
+    {
+        //Choose creature to generate
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
             {
+                //Generate Creature1
                 g.GetComponent<Metaballs>().Generate(c1);
             }
         }
-        else if (generate == 2)
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
             {
+                //Generate Creature1
                 g.GetComponent<Metaballs>().Generate(c2);
             }
         }
-        else if (generate == 3)
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
             {
+                //Generate Creature1
                 g.GetComponent<Metaballs>().Generate(c3);
             }
         }
-    }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-    }
-
-    private void OnDrawGizmos()
-    {
-        //// positive extremes (2, 3, 0.5)
-        //// negative extremes (-2, -2, -4)
-        //Vector3 max = new Vector3(2.0f, 3.0f, 0.5f);
-        //Vector3 min = new Vector3(-2.0f, -2.0f, -4.0f);
-        //Vector3 range = max - min;
-
-        ////check if points exsist
-        //if (c1 == null)
-        //{
-        //    return;
-        //}
-        ////draw points of creature
-        //for (int i = 0; i < c1.points.Count; i++)
-        //{
-        //    Gizmos.color = new Color((c1.points[i].x - min.x) / range.x, (c1.points[i].y - min.y) / range.y, (c1.points[i].z - min.z) / range.z);
-        //    Color temp = Gizmos.color;
-        //    temp.a = 0.9f;
-        //    Gizmos.color = temp;
-        //    Gizmos.DrawSphere(c1.points[i], 0.1f);
-        //}
     }
 }

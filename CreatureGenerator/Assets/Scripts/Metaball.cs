@@ -8,6 +8,7 @@ public class Metaball
     public float radius = 0.2f;
     public float spread = 1.3f;
 
+    //Constructor
     public Metaball(Vector3 c, float r, float s)
     {
         center = c;
