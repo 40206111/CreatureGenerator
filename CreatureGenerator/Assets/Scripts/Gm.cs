@@ -9,6 +9,8 @@ public class Gm : MonoBehaviour
     private Creature c2;
     private Creature c3;
 
+    private float turnSpeed = 20;
+
     //Add points for Creature1
     private void Creature1()
     {
@@ -202,34 +204,69 @@ public class Gm : MonoBehaviour
         Creature1();
         Creature2();
         Creature3();
+        foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
+        {
+            //Generate Creature1
+            g.GetComponent<Metaballs>().Generate(c2);
+        }
     }
 
     private void Update()
     {
         //Choose creature to generate
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        //if (Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
+        //    {
+        //        //Generate Creature1
+        //        g.GetComponent<Metaballs>().Generate(c1);
+        //    }
+        //}
+        //else if (Input.GetKeyDown(KeyCode.Alpha2))
+        //{
+        //    foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
+        //    {
+        //        //Generate Creature1
+        //        g.GetComponent<Metaballs>().Generate(c2);
+        //    }
+        //}
+        //else if (Input.GetKeyDown(KeyCode.Alpha3))
+        //{
+        //    foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
+        //    {
+        //        //Generate Creature1
+        //        g.GetComponent<Metaballs>().Generate(c3);
+        //    }
+        //}
+
+        if (Input.GetKey(KeyCode.UpArrow))
         {
             foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
             {
-                //Generate Creature1
-                g.GetComponent<Metaballs>().Generate(c1);
+                g.transform.Rotate(Vector3.left * turnSpeed * Time.deltaTime, Space.World);
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKey(KeyCode.DownArrow))
         {
             foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
             {
-                //Generate Creature1
-                g.GetComponent<Metaballs>().Generate(c2);
+                g.transform.Rotate(Vector3.right * turnSpeed * Time.deltaTime, Space.World);
             }
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
             {
-                //Generate Creature1
-                g.GetComponent<Metaballs>().Generate(c3);
+                g.transform.Rotate(Vector3.up * turnSpeed * Time.deltaTime, Space.World);
             }
         }
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
+            {
+                g.transform.Rotate(Vector3.down * turnSpeed * Time.deltaTime, Space.World);
+            }
+        }
+
     }
 }
