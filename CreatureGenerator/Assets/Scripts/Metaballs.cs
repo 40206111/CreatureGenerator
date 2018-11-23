@@ -9,6 +9,8 @@ public class Metaballs : MonoBehaviour
     private Vector3 startGrid;
     private List<MarchingCubes.Points> gridPoints = new List<MarchingCubes.Points>();
     private Vector2 gridItterations = new Vector2(); //x = z itterations, y = y itterations
+    private Vector3 max = new Vector3(0.0f, 0.0f, 0.0f);
+    private Vector3 min = new Vector3(0.0f, 0.0f, 0.0f);
 
     //Extra grid past last points of creature
     [SerializeField]
@@ -29,6 +31,8 @@ public class Metaballs : MonoBehaviour
             foreach (Vector3 p in l)
             {
                 balls.Add(new Metaball(p, 0.5f, 0.5f));
+                max = Max(p, max);
+                min = Min(p, min);
             }
         }
 
@@ -38,6 +42,8 @@ public class Metaballs : MonoBehaviour
             foreach (Vector3 p in l)
             {
                 balls.Add(new Metaball(p, 0.4f, 0.2f));
+                max = Max(p, max);
+                min = Min(p, min);
             }
         }
 
@@ -47,34 +53,30 @@ public class Metaballs : MonoBehaviour
             foreach (Vector3 p in l)
             {
                 balls.Add(new Metaball(p, 0.2f, 0.3f));
+                max = Max(p, max);
+                min = Min(p, min);
             }
         }
 
         ///ARM///
         foreach (List<Vector3> l in c.Points["Arm"])
         {
-            for (int i = 0; i < l.Count; ++i)
+            foreach (Vector3 p in l)
             {
-                if (i != 0)
-                {
-                    balls.Add(new Metaball(l[i] + ((l[i - 1] - l[i]) / 2), 0.2f, 0.5f));
-
-                }
-                balls.Add(new Metaball(l[i], 0.2f, 0.5f));
+                balls.Add(new Metaball(p, 0.2f, 0.5f));
+                max = Max(p, max);
+                min = Min(p, min);
             }
         }
 
         ///LEG///
         foreach (List<Vector3> l in c.Points["Leg"])
         {
-            for (int i = 0; i < l.Count; ++i)
+            foreach (Vector3 p in l)
             {
-                if (i != 0)
-                {
-                    balls.Add(new Metaball(l[i] + ((l[i - 1] - l[i]) / 2), 0.3f, 0.3f));
-
-                }
-                balls.Add(new Metaball(l[i], 0.3f, 0.3f));
+                balls.Add(new Metaball(p, 0.3f, 0.3f));
+                max = Max(p, max);
+                min = Min(p, min);
             }
         }
 
@@ -84,20 +86,19 @@ public class Metaballs : MonoBehaviour
             foreach (Vector3 p in l)
             {
                 balls.Add(new Metaball(p, 0.4f, 1.2f));
+                max = Max(p, max);
+                min = Min(p, min);
             }
         }
 
         ///TAIL///
         foreach (List<Vector3> l in c.Points["Tail"])
         {
-            for (int i = 0; i < l.Count; ++i)
+            foreach (Vector3 p in l)
             {
-                if (i != 0)
-                {
-                    balls.Add(new Metaball(l[i] + ((l[i - 1] - l[i]) / 2), 0.15f, 0.4f));
-
-                }
-                balls.Add(new Metaball(l[i], 0.15f, 0.4f));
+                balls.Add(new Metaball(p, 0.15f, 0.4f));
+                max = Max(p, max);
+                min = Min(p, min);
             }
         }
 
@@ -111,8 +112,6 @@ public class Metaballs : MonoBehaviour
         gridPoints.Clear();
         gridItterations = new Vector2();
         Vector3 difference = new Vector3();
-        Vector3 max = new Vector3(0.0f, 0.0f, 0.0f);
-        Vector3 min = new Vector3(0.0f, 0.0f, 0.0f);
 
         //Make meta balls
         MakeBalls(c);
@@ -194,5 +193,41 @@ public class Metaballs : MonoBehaviour
                 }
             }
         }
+    }
+
+    Vector3 Max(Vector3 test, Vector3 against)
+    {
+        Vector3 output = against;
+        if (test.x > against.x)
+        {
+            output.x = test.x;
+        }
+        if (test.y > against.y)
+        {
+            output.y = test.y;
+        }
+        if (test.z > against.z)
+        {
+            output.z = test.z;
+        }
+        return output;
+    }
+
+    Vector3 Min(Vector3 test, Vector3 against)
+    {
+        Vector3 output = against;
+        if (test.x < against.x)
+        {
+            output.x = test.x;
+        }
+        if (test.y < against.y)
+        {
+            output.y = test.y;
+        }
+        if (test.z < against.z)
+        {
+            output.z = test.z;
+        }
+        return output;
     }
 }
