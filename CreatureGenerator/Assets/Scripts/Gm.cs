@@ -6,8 +6,6 @@ public class Gm : MonoBehaviour
 {
     //Creatures
     private Creature c1 = new Creature();
-    private Creature c2;
-    private Creature c3;
 
     private float turnSpeed = 20;
 
