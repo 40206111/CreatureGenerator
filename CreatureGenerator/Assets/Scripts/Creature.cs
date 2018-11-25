@@ -6,7 +6,7 @@ public class Creature
 {
 
     private enum Type { Insect, Mammal };
-    private enum TypeTail { Horse, Monkey, Cat }
+    private enum TypeTail { Horse, Dog, Monkey, Cat }
     private enum Size { Small, Medium, Large }
 
     //main points of creature
@@ -18,10 +18,10 @@ public class Creature
     private int ArmPairs = 1;
     private int LegPairs = 3;
     private Type LegType = Type.Insect;
-    private Size LegSize = Size.Large;
+    private Size LegSize = Size.Small;
     private int Tail = 5;
-    private int TailLength = 5;
-    private TypeTail TailType = TypeTail.Horse;
+    private int TailLength = 4;
+    private TypeTail TailType = TypeTail.Dog;
 
     //constructor
     public Creature()
@@ -174,36 +174,71 @@ public class Creature
             switch (TailType)
             {
                 case TypeTail.Horse:
-                    Points["Tail"].Add(new List<Vector3>());
-                    Vector3 thePoint;
-                    if (Points["Spine"].Count != 0)
                     {
-                        thePoint = Points["Spine"][0][Points["Spine"][0].Count - 1];
-                    }
-                    else
-                    {
-                        thePoint = new Vector3(Start.x, Start.y + 0.2f, Start.z - 0.1f);
-                    }
-                    thePoint.z -= 0.3f;
-                    thePoint.y += 0.3f;
-                    for (int j = 0; j < TailLength; ++j)
-                    {
-                        thePoint.y -= 0.3f;
-                        thePoint.z -= 0.2f;
-
-                        if(i > (int)(Tail/2))
+                        Points["Tail"].Add(new List<Vector3>());
+                        Vector3 thePoint;
+                        if (Points["Spine"].Count != 0)
                         {
-                            thePoint.x += ((Tail - ((float)i % Tail)) / 2.0f) * 0.5f;
+                            thePoint = Points["Spine"][0][Points["Spine"][0].Count - 1];
                         }
                         else
                         {
-                            thePoint.x -= ((float)i / 2.0f) * 0.5f;
+                            thePoint = new Vector3(Start.x, Start.y + 0.2f, Start.z - 0.1f);
                         }
+                        thePoint.z -= 0.3f;
+                        thePoint.y += 0.3f;
+                        for (int j = 0; j < TailLength; ++j)
+                        {
+                            thePoint.y -= 0.3f;
+                            thePoint.z -= 0.2f;
 
-                        Points["Tail"][i].Add(thePoint);
+                            if (i > (int)(Tail / 2))
+                            {
+                                thePoint.x += ((Tail - ((float)i % Tail)) / 2.0f) * 0.5f;
+                            }
+                            else
+                            {
+                                thePoint.x -= ((float)i / 2.0f) * 0.5f;
+                            }
 
+                            Points["Tail"][i].Add(thePoint);
+
+                        }
+                        break;
                     }
-                    break;
+                case TypeTail.Dog:
+                    {
+                        Points["Tail"].Add(new List<Vector3>());
+                        Vector3 thePoint;
+                        if (Points["Spine"].Count != 0)
+                        {
+                            thePoint = Points["Spine"][0][Points["Spine"][0].Count - 1];
+                        }
+                        else
+                        {
+                            thePoint = new Vector3(Start.x, Start.y + 0.2f, Start.z - 0.1f);
+                        }
+                        thePoint.z -= 0.3f;
+                        thePoint.y += 0.3f;
+                        for (int j = 0; j < TailLength; ++j)
+                        {
+                            thePoint.y += 0.3f;
+                            thePoint.z -= 0.2f;
+
+                            if (i > (int)(Tail / 2))
+                            {
+                                thePoint.x += ((Tail - ((float)i % Tail)) / 2.0f) * 0.5f;
+                            }
+                            else
+                            {
+                                thePoint.x -= ((float)i / 2.0f) * 0.5f;
+                            }
+
+                            Points["Tail"][i].Add(thePoint);
+
+                        }
+                        break;
+                    }
             }
         }
     }
