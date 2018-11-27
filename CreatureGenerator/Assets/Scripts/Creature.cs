@@ -16,11 +16,11 @@ public class Creature
     //Parameters
     private int Head = 1;
     private int ArmPairs = 1;
-    private int LegPairs = 3;
-    private Type LegType = Type.Mammal;
-    private Size LegSize = Size.Small;
-    private int Tail = 1;
-    private int TailLength = 4;
+    private int LegPairs = 2;
+    private Type LegType = Type.Insect;
+    private Size LegSize = Size.XL;
+    private int Tail = 3;
+    private int TailLength = 5;
     private TypeTail TailType = TypeTail.Dog;
 
     //constructor
@@ -176,12 +176,16 @@ public class Creature
     {
         for (int i = 0; i < Tail; ++i)
         {
+            float angle = (Mathf.PI / (Tail + 1)) * (i + 1);
+            Vector2 dir = new Vector2(1, 0);
+            dir = new Vector2(dir.x * Mathf.Cos(angle) - dir.y * Mathf.Sin(angle), dir.x * Mathf.Sin(angle) + dir.y * Mathf.Cos(angle));
             switch (TailType)
             {
                 case TypeTail.Horse:
                 {
                     Points["Tail"].Add(new List<Vector3>());
                     Vector3 thePoint;
+
                     if (Points["Spine"].Count != 0)
                     {
                         thePoint = Points["Spine"][0][Points["Spine"][0].Count - 1];
@@ -190,21 +194,14 @@ public class Creature
                     {
                         thePoint = new Vector3(Start.x, Start.y + 0.2f, Start.z - 0.1f);
                     }
-                    thePoint.z -= 0.3f;
+
+                    thePoint.z -= 0.5f;
                     thePoint.y += 0.3f;
                     for (int j = 0; j < TailLength; ++j)
                     {
-                        thePoint.y -= 0.3f;
-                        thePoint.z -= 0.2f;
-
-                        if (i > (int)(Tail / 2))
-                        {
-                            thePoint.x += ((Tail - ((float)i % Tail)) / 2.0f) * 0.5f;
-                        }
-                        else
-                        {
-                            thePoint.x -= ((float)i / 2.0f) * 0.5f;
-                        }
+                        thePoint.y -= 0.3f * dir.y;
+                        thePoint.z -= 0.1f;
+                        thePoint.x += 0.3f * dir.x;
 
                         Points["Tail"][i].Add(thePoint);
 
@@ -215,7 +212,7 @@ public class Creature
                 {
                     Points["Tail"].Add(new List<Vector3>());
                     Vector3 thePoint;
-                    if (Points["Spine"].Count != 0)
+                    if (Points["Spine"][0].Count != 0)
                     {
                         thePoint = Points["Spine"][0][Points["Spine"][0].Count - 1];
                     }
@@ -227,17 +224,10 @@ public class Creature
                     thePoint.y += 0.3f;
                     for (int j = 0; j < TailLength; ++j)
                     {
-                        thePoint.y += 0.3f;
+                        thePoint.y += 0.3f * dir.y;
                         thePoint.z -= 0.2f;
+                        thePoint.x += 0.3f * dir.x;
 
-                        if (i > (int)(Tail / 2))
-                        {
-                            thePoint.x += ((Tail - ((float)i % Tail)) / 2.0f) * 0.5f;
-                        }
-                        else
-                        {
-                            thePoint.x -= ((float)i / 2.0f) * 0.5f;
-                        }
 
                         Points["Tail"][i].Add(thePoint);
 

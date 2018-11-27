@@ -23,7 +23,7 @@ public class Metaballs : MonoBehaviour
     private void MakeBalls(Creature c)
     {
         //Start point
-        balls.Add(new Metaball(c.Start, 0.4f, 0.5f));
+        balls.Add(new Metaball(c.Start, 0.4f, 1.8f));
 
         ///TORSO///
         foreach (List<Vector3> l in c.Points["Torso"])
@@ -85,7 +85,7 @@ public class Metaballs : MonoBehaviour
         {
             foreach (Vector3 p in l)
             {
-                balls.Add(new Metaball(p, 0.4f, 1.2f));
+                balls.Add(new Metaball(p, 0.4f, 1.5f));
                 max = Max(p, max);
                 min = Min(p, min);
             }
@@ -96,7 +96,7 @@ public class Metaballs : MonoBehaviour
         {
             foreach (Vector3 p in l)
             {
-                balls.Add(new Metaball(p, 0.15f, 0.4f));
+                balls.Add(new Metaball(p, 0.2f, 0.2f));
                 max = Max(p, max);
                 min = Min(p, min);
             }
