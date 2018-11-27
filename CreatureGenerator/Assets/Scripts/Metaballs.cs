@@ -74,7 +74,7 @@ public class Metaballs : MonoBehaviour
         {
             foreach (Vector3 p in l)
             {
-                balls.Add(new Metaball(p, 0.3f, 0.3f));
+                balls.Add(new Metaball(p, 0.3f, 0.7f));
                 max = Max(p, max);
                 min = Min(p, min);
             }
