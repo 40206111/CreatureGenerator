@@ -16,12 +16,12 @@ public class Creature
     //Parameters
     private int Head = 1;
     private int ArmPairs = 1;
-    private int LegPairs = 2;
-    private Type LegType = Type.Insect;
-    private Size LegSize = Size.XL;
-    private int Tail = 3;
-    private int TailLength = 5;
-    private TypeTail TailType = TypeTail.Dog;
+    private int LegPairs = 3;
+    private Type LegType = Type.Mammal;
+    private Size LegSize = Size.Medium;
+    private int Tail = 5;
+    private int TailLength = 8;
+    private TypeTail TailType = TypeTail.Cat;
 
     //constructor
     public Creature()
@@ -99,8 +99,8 @@ public class Creature
 
                     for (int j = 0; j < amount; ++j)
                     {
-                        thePoint.y += metaDistance/2;
-                        thePoint.x += Mathf.Cos((float)j  / ((float)amount * 1.5f) * Mathf.PI / 1.5f) - 0.5f;
+                        thePoint.y += metaDistance / 2;
+                        thePoint.x += Mathf.Cos((float)j / ((float)amount * 1.5f) * Mathf.PI / 1.5f) - 0.5f;
                         thePoint.z += 0.1f;
 
                         mirrorPoint = thePoint;
@@ -133,7 +133,7 @@ public class Creature
                     Points["Leg"][Points["Leg"].Count - 2].Add(mirrorPoint);
 
 
-                    for (int j = 0; j < amount/2; ++j)
+                    for (int j = 0; j < amount / 2; ++j)
                     {
                         thePoint.y -= metaDistance;
                         thePoint.x += 0.1f;
@@ -174,27 +174,32 @@ public class Creature
 
     private void MakeTails()
     {
+        if (Tail == 0 || TailLength == 0)
+        {
+            return;
+        }
         for (int i = 0; i < Tail; ++i)
         {
             float angle = (Mathf.PI / (Tail + 1)) * (i + 1);
             Vector2 dir = new Vector2(1, 0);
             dir = new Vector2(dir.x * Mathf.Cos(angle) - dir.y * Mathf.Sin(angle), dir.x * Mathf.Sin(angle) + dir.y * Mathf.Cos(angle));
+
+            Points["Tail"].Add(new List<Vector3>());
+            Vector3 thePoint;
+
+            if (Points["Spine"][0].Count != 0)
+            {
+                thePoint = Points["Spine"][0][Points["Spine"][0].Count - 1];
+            }
+            else
+            {
+                thePoint = new Vector3(Start.x, Start.y + 0.2f, Start.z - 0.1f);
+            }
+
             switch (TailType)
             {
                 case TypeTail.Horse:
                 {
-                    Points["Tail"].Add(new List<Vector3>());
-                    Vector3 thePoint;
-
-                    if (Points["Spine"].Count != 0)
-                    {
-                        thePoint = Points["Spine"][0][Points["Spine"][0].Count - 1];
-                    }
-                    else
-                    {
-                        thePoint = new Vector3(Start.x, Start.y + 0.2f, Start.z - 0.1f);
-                    }
-
                     thePoint.z -= 0.5f;
                     thePoint.y += 0.3f;
                     for (int j = 0; j < TailLength; ++j)
@@ -210,16 +215,6 @@ public class Creature
                 }
                 case TypeTail.Dog:
                 {
-                    Points["Tail"].Add(new List<Vector3>());
-                    Vector3 thePoint;
-                    if (Points["Spine"][0].Count != 0)
-                    {
-                        thePoint = Points["Spine"][0][Points["Spine"][0].Count - 1];
-                    }
-                    else
-                    {
-                        thePoint = new Vector3(Start.x, Start.y + 0.2f, Start.z - 0.1f);
-                    }
                     thePoint.z -= 0.3f;
                     thePoint.y += 0.3f;
                     for (int j = 0; j < TailLength; ++j)
@@ -231,6 +226,120 @@ public class Creature
 
                         Points["Tail"][i].Add(thePoint);
 
+                    }
+                    break;
+                }
+                case TypeTail.Monkey:
+                {
+                    thePoint.z -= 0.1f;
+                    thePoint.y += 0.3f;
+                    for (int j = 0; j < TailLength - 2; ++j)
+                    {
+                        thePoint.y += (0.6f * Mathf.Sin(((float)j / (float)(TailLength - 1)) * Mathf.PI / 4.0f)) * dir.y;
+                        thePoint.z -= 0.3f * Mathf.Cos(((float)j / (float)(TailLength - 1)) * Mathf.PI / 4.0f);
+                        thePoint.x += 0.3f * dir.x;
+
+                        Points["Tail"][i].Add(thePoint);
+                    }
+
+                    for (int j = 0; j < (TailLength - (TailLength - 2)); ++j)
+                    {
+                        thePoint.z -= (1.0f - (float)j) / 5.0f;
+                        thePoint.y += 0.4f * dir.y;
+                        thePoint.x += 0.3f * dir.x;
+                        Points["Tail"][i].Add(thePoint);
+                    }
+
+
+                    //LOOP
+                    int end = Points["Tail"][i].Count - 1;
+                    int loop = 10;
+                    Vector3 first = new Vector3(0.0f, 0.0f, 0.0f);
+
+                    for (int j = 0; j < loop; ++j)
+                    {
+                        Vector3 origin = Points["Tail"][i][end];
+
+                        float ang = 2.0f * Mathf.PI + (Mathf.PI * (float)j / (float)(loop - 1));
+                        float r;
+                        if (TailLength < 13)
+                        {
+                            r = ((((1.0f - (float)j / (float)(loop - 1)))) * ang) * (float)TailLength / 50.0f;
+                        }
+                        else
+                        {
+                            r = ((((1.0f - (float)j / (float)(loop - 1)))) * ang) * 13.0f / 40.0f;
+                        }
+                        if (j == 0)
+                        {
+                            first.z = r * -Mathf.Cos(ang);
+                            first.y = r * Mathf.Sin(ang);
+                        }
+                        origin -= first;
+                        origin.z += r * -Mathf.Cos(ang);
+                        origin.y += (r * Mathf.Sin(ang)) * dir.y;
+                        origin.x += 0.3f * dir.x;
+                        if (j != 0)
+                        {
+                            Points["Tail"][i].Add(origin);
+                        }
+                    }
+                    break;
+                }
+                case TypeTail.Cat:
+                {
+                    thePoint.z -= 0.1f;
+                    thePoint.y += 0.3f;
+                    for (int j = 0; j < TailLength - 2; ++j)
+                    {
+                        thePoint.y += (0.6f * Mathf.Sin(((float)j / (float)(TailLength - 1)) * Mathf.PI / 4.0f)) * dir.y;
+                        thePoint.z -= 0.3f * Mathf.Cos(((float)j / (float)(TailLength - 1)) * Mathf.PI / 4.0f);
+                        thePoint.x += 0.3f * dir.x;
+
+                        Points["Tail"][i].Add(thePoint);
+                    }
+
+                    for (int j = 0; j < (TailLength - (TailLength - 2)); ++j)
+                    {
+                        thePoint.z -= (1.0f - (float)j) / 5.0f;
+                        thePoint.y += 0.4f * dir.y;
+                        thePoint.x += 0.3f * dir.x;
+                        Points["Tail"][i].Add(thePoint);
+                    }
+
+
+                    //LOOP
+                    int end = Points["Tail"][i].Count - 1;
+                    int loop = 10;
+                    Vector3 first = new Vector3(0.0f, 0.0f, 0.0f);
+
+                    for (int j = 0; j < loop; ++j)
+                    {
+                        Vector3 origin = Points["Tail"][i][end];
+
+                        float ang = 2.0f * Mathf.PI + (Mathf.PI * (float)j / (float)(loop - 1));
+                        float r;
+                        if (TailLength < 13)
+                        {
+                            r = ((((1.0f - (float)j / (float)(loop - 1)))) * ang) * (float)TailLength / 50.0f;
+                        }
+                        else
+                        {
+                            r = ((((1.0f - (float)j / (float)(loop - 1)))) * ang) * 13.0f / 40.0f;
+                        }
+                        if (j == 0)
+                        {
+                            first.z = r * Mathf.Cos(ang);
+                            first.y = r * Mathf.Sin(ang);
+                        }
+                        origin -= first;
+                        origin.z += r * Mathf.Cos(ang);
+                        origin.y += (r * Mathf.Sin(ang)) * dir.y;
+                        origin.x += 0.3f * dir.x;
+                        if (j != 0)
+                        {
+                            Points["Tail"][i].Add(origin);
+                        }
                     }
                     break;
                 }

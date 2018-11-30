@@ -127,7 +127,7 @@ GameObject:
   m_Layer: 0
   m_Name: Creature
   m_TagString: creature
-  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 1
   m_IsActive: 1
@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   excess: 0.7
-  detail: 0.15
+  detail: 0.1
 --- !u!4 &179259207
 Transform:
   m_ObjectHideFlags: 0
@@ -336,7 +336,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2013653077}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 13.62}
+  m_LocalPosition: {x: 0, y: 1.36, z: 27.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -386,6 +386,11 @@ Prefab:
       propertyPath: generate
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114651135501392234, guid: d9a62d071fbd3fa40be979da8a9dc437,
+        type: 2}
+      propertyPath: camera
+      value: 
+      objectReference: {fileID: 2013653077}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d9a62d071fbd3fa40be979da8a9dc437, type: 2}
   m_IsPrefabAsset: 0

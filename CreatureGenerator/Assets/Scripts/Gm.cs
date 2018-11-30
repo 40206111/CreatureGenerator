@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Gm : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject camera;
     //Creatures
     private Creature c1 = new Creature();
 
@@ -51,5 +53,15 @@ public class Gm : MonoBehaviour
             }
         }
 
+        Vector3 newCamPos = camera.transform.position;
+        if (Input.GetKey(KeyCode.W))
+        {
+              newCamPos.z -= 10.0f * Time.deltaTime;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            newCamPos.z += 10.0f * Time.deltaTime;
+        }
+        camera.transform.position = newCamPos;
     }
 }
