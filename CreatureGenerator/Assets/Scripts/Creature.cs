@@ -16,18 +16,18 @@ public class Creature
     public Vector3 Start = new Vector3(0.0f, 0.0f, 0.0f);
 
     //Parameters
-    private int Head = 2;
-    private TypeHead HeadType = TypeHead.Monkey;
+    private int Head = 1;
+    private TypeHead HeadType = TypeHead.Dog;
     private int neckLength = 3;
-    private int TorsoSize = 6;
+    private int TorsoSize = 0;
     private TypeTorso TorsoType = TypeTorso.Straight;
-    private int ArmPairs = 2;
-    private int LegPairs = 3;
+    private int ArmPairs = 4;
+    private int LegPairs = 0;
     private Type LegType = Type.Mammal;
-    private Size LegSize = Size.Medium;
-    private int Tail = 5;
+    private Size LegSize = Size.XL;
+    private int Tail = 0;
     private int TailLength = 8;
-    private TypeTail TailType = TypeTail.Monkey;
+    private TypeTail TailType = TypeTail.Cat;
 
     //constructor
     public Creature()
@@ -46,9 +46,43 @@ public class Creature
     public void Generate()
     {
         MakeTorso();
+        MakeArms();
         MakeHeads();
         MakeLegs();
         MakeTails();
+    }
+
+    private void MakeArms()
+    {
+        for (int i = 0; i < ArmPairs; ++i)
+        {
+            Points["Arm"].Add(new List<Vector3>());
+            Points["Arm"].Add(new List<Vector3>());
+            int index = Points["Torso"][0].Count - (i *2) - 1;
+            Vector3 thePoint = Points["Torso"][0][index];
+            Vector3 altPoint = Points["Torso"][0][index - 1];
+
+            thePoint.x += 0.6f;
+            altPoint.x -= 0.4f;
+            Points["Arm"][Points["Arm"].Count - 2].Add(thePoint);
+            Points["Arm"][Points["Arm"].Count - 1].Add(altPoint);
+
+            thePoint.x += 0.6f;
+            altPoint.x -= 0.6f;
+            Points["Arm"][Points["Arm"].Count - 2].Add(thePoint);
+            Points["Arm"][Points["Arm"].Count - 1].Add(altPoint);
+
+            thePoint.x += 0.6f;
+            altPoint.x -= 0.6f;
+            Points["Arm"][Points["Arm"].Count - 2].Add(thePoint);
+            Points["Arm"][Points["Arm"].Count - 1].Add(altPoint);
+
+            thePoint.x += 0.6f;
+            altPoint.x -= 0.6f;
+            Points["Arm"][Points["Arm"].Count - 2].Add(thePoint);
+            Points["Arm"][Points["Arm"].Count - 1].Add(altPoint);
+
+        }
     }
 
     //Method to make creature heads
@@ -70,7 +104,7 @@ public class Creature
 
             Points["Neck"].Add(new List<Vector3>());
             Points["Head"].Add(new List<Vector3>());
-            float angle = (Mathf.PI / (Tail + 1)) * (i + 1);
+            float angle = (Mathf.PI / (Head + 1)) * (i + 1);
             Vector2 dir = new Vector2(1, 0);
             dir = new Vector2(dir.x * Mathf.Cos(angle) - dir.y * Mathf.Sin(angle), dir.x * Mathf.Sin(angle) + dir.y * Mathf.Cos(angle));
 
@@ -86,23 +120,41 @@ public class Creature
             }
             for (int j = 0; j < neckLength; ++j)
             {
-                thePoint.z += 2.0f * Mathf.Sin(((float)j / (float)(TailLength - 1)) * Mathf.PI / 8.0f);
+                thePoint.z += 1.0f * Mathf.Sin(((float)j / (float)(neckLength - 1)) * Mathf.PI / 8.0f);
                 thePoint.y += 0.5f * dir.y;
                 thePoint.x += 0.5f * dir.x;
                 Points["Neck"][i].Add(thePoint);
             }
 
-            thePoint.y += 0.5f * dir.y;
-            thePoint.z += 0.2f;
-            thePoint.x += 0.5f * dir.x;
-            Points["Head"][i].Add(thePoint);
-            thePoint.z += 0.3f;
-            thePoint.x += 0.5f * dir.x;
-            Points["Head"][i].Add(thePoint);
-            thePoint.y += 0.5f * dir.y;
-            thePoint.z -= 0.3f;
-            thePoint.x += 0.5f * dir.x;
-            Points["Head"][i].Add(thePoint);
+            switch (HeadType)
+            {
+                case TypeHead.Monkey:
+                    thePoint.y += 0.5f;
+                    thePoint.z += 0.2f;
+                    Points["Head"][i].Add(thePoint);
+                    thePoint.z += 0.3f;
+                    thePoint.x += 0.2f;
+                    Points["Head"][i].Add(thePoint);
+                    thePoint.x -= 0.4f;
+                    Points["Head"][i].Add(thePoint);
+                    thePoint.y += 0.5f;
+                    thePoint.z -= 0.3f;
+                    thePoint.x += 0.2f;
+                    Points["Head"][i].Add(thePoint);
+                    break;
+                case TypeHead.Dog:
+                    thePoint.y += 0.5f;
+                    thePoint.z += 0.2f;
+                    Points["Head"][i].Add(thePoint);
+                    thePoint.y += 0.5f;
+                    Points["Head"][i].Add(thePoint);
+                    thePoint.y -= 0.5f;
+                    thePoint.z += 0.5f;
+                    Points["Head"][i].Add(thePoint);
+                    thePoint.z += 0.5f;
+                    Points["Head"][i].Add(thePoint);
+                    break;
+            }
         }
     }
 
@@ -145,7 +197,7 @@ public class Creature
                 //create shoulders
                 for (int j = 0; j < amount; ++j)
                 {
-                    thePoint.y += 0.5f;
+                    thePoint.y += 0.9f;
                     thePoint.x -= 0.5f;
                     Points["Torso"][0].Add(thePoint);
                     thePoint.x *= -1.0f;
@@ -160,7 +212,7 @@ public class Creature
                 //create hunched torso points
                 for (int i = 0; i < TorsoSize - amount; ++i)
                 {
-                    thePoint.y += 0.4f;
+                    thePoint.y += 10.4f;
                     thePoint.z += 0.3f * Mathf.Sin(((float)i / (float)(TailLength - 1)) * Mathf.PI / 8.0f);
                     Points["Torso"][0].Add(thePoint);
                 }
@@ -168,7 +220,7 @@ public class Creature
                 //create hunched shoulders
                 for (int j = 0; j < amount; ++j)
                 {
-                    thePoint.y += 0.5f;
+                    thePoint.y += 0.9f;
                     thePoint.x -= 0.5f;
                     thePoint.z += 0.8f * Mathf.Sin((((float)TorsoSize + (float)j) / (float)(TorsoSize + amount)) * Mathf.PI / 8.0f);
                     Points["Torso"][0].Add(thePoint);
@@ -237,8 +289,8 @@ public class Creature
                     //move point
                     thePoint.y += metaDistance;
                     thePoint.x += 0.5f;
-                    
-                     //start both legs
+
+                    //start both legs
                     mirrorPoint = thePoint;
                     mirrorPoint.x = -thePoint.x;
                     Points["Leg"][Points["Leg"].Count - 1].Add(thePoint);
@@ -459,7 +511,7 @@ public class Creature
                 first.z = r * direction * Mathf.Cos(ang);
                 first.y = r * Mathf.Sin(ang);
             }
-            
+
             //move point to right position
             origin -= first;
             origin.z += r * direction * Mathf.Cos(ang);
