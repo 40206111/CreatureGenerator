@@ -17,16 +17,16 @@ public class Creature
     public Vector3 Start = new Vector3(0.0f, 0.0f, 0.0f);
 
     //Parameters
-    private int Head = 0;
+    private int Head = 3;
     private TypeHead HeadType = TypeHead.Dog;
-    private int neckLength = 0;
-    private int TorsoSize = 0;
+    private int neckLength = 4;
+    private int TorsoSize = 8;
     private TypeTorso TorsoType = TypeTorso.Straight;
-    private int ArmPairs = 0;
+    private int ArmPairs = 2;
     private Size ArmSize = Size.Small;
     private int LegPairs = 1;
     private Type LegType = Type.Insect;
-    private Size LegSize = Size.Large;
+    private Size LegSize = Size.Medium;
     private int Tail =7;
     private int TailLength = 20;
     private TypeTail TailType = TypeTail.Monkey;
@@ -67,9 +67,9 @@ public class Creature
         //neck Length
         neckLength = rnd.Next(0, 20);
 
-        if (neckLength < Head * 3)
+        if (Head != 1 && neckLength < Head * 3)
         {
-            neckLength = Head * 3;
+            neckLength = (int)(Head * 1.5f);
         }
 
         //torso size
@@ -86,7 +86,7 @@ public class Creature
 
         if (TorsoSize < 5 && ArmPairs > 0 && LegType == Type.Insect)
         {
-            TorsoSize = 5;
+            TorsoSize = 8;
         }
 
         //leg pairs
