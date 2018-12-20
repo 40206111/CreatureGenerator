@@ -30,7 +30,7 @@ public class Metaballs : MonoBehaviour
         {
             foreach (Vector3 p in l)
             {
-                balls.Add(new Metaball(p, 0.5f, 0.5f));
+                balls.Add(new Metaball(p, 0.7f, 0.5f));
                 max = Max(p, max);
                 min = Min(p, min);
             }
@@ -96,7 +96,7 @@ public class Metaballs : MonoBehaviour
         {
             foreach (Vector3 p in l)
             {
-                balls.Add(new Metaball(p, 0.2f, 0.2f));
+                balls.Add(new Metaball(p, 0.3f, 0.2f));
                 max = Max(p, max);
                 min = Min(p, min);
             }

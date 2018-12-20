@@ -16,6 +16,7 @@ public class Gm : MonoBehaviour
     {
         foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
         {
+            c1.Randomise();
             //Generate Creature1
             c1.Generate();
             g.GetComponent<Metaballs>().Generate(c1);
