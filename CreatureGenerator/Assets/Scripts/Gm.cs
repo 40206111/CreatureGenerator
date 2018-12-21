@@ -1,266 +1,125 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Gm : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject camera;
     //Creatures
-    private Creature c1;
-    private Creature c2;
-    private Creature c3;
+    private Creature c1 = new Creature();
 
     private float turnSpeed = 20;
 
-    //Add points for Creature1
-    private void Creature1()
-    {
-        c1 = new Creature();
-        //start point
-        c1.Start = new Vector3(0.0f, 0.0f, 0.0f);
-
-        //torso
-        c1.Points["Torso"].Add(new List<Vector3>());
-        c1.Points["Torso"][0].Add(new Vector3(0.0f, 1.0f, 0.0f));   //mid torso
-        c1.Points["Torso"][0].Add(new Vector3(0.0f, 2.0f, 0.0f));   //top torso
-
-        //neck
-        c1.Points["Neck"].Add(new List<Vector3>());
-        c1.Points["Neck"][0].Add(new Vector3(0.0f, 2.5f, 0.0f));   //neck
-
-        //head
-        c1.Points["Head"].Add(new List<Vector3>());
-        c1.Points["Head"][0].Add(new Vector3(0.0f, 3.0f, 0.2f));   //head
-
-        //arm
-        c1.Points["Arm"].Add(new List<Vector3>());
-        c1.Points["Arm"].Add(new List<Vector3>());
-        c1.Points["Arm"][0].Add(new Vector3(0.75f, 2.0f, 0.0f));   //shoulder 1
-        c1.Points["Arm"][1].Add(new Vector3(-0.75f, 2.0f, 0.0f));  //shoulder 2
-        c1.Points["Arm"][0].Add(new Vector3(1.25f, 1.0f, 0.25f));   //elbo 1
-        c1.Points["Arm"][1].Add(new Vector3(-1.25f, 1.0f, 0.25f));  //elbo 2
-        c1.Points["Arm"][0].Add(new Vector3(1.5f, 0.0f, 0.5f));   //hand 1
-        c1.Points["Arm"][1].Add(new Vector3(-1.5f, 0.0f, 0.5f));  //hand 2
-
-        //Leg1
-        c1.Points["Leg"].Add(new List<Vector3>());
-        c1.Points["Leg"].Add(new List<Vector3>());
-        c1.Points["Leg"][0].Add(new Vector3(-0.5f, 0.0f, 0.0f));  //hip  front 1
-        c1.Points["Leg"][1].Add(new Vector3(0.5f, 0.0f, 0.0f));   //hip  front 2
-        c1.Points["Leg"][0].Add(new Vector3(-1.0f, -1.0f, 0.0f));  //knee front 1
-        c1.Points["Leg"][1].Add(new Vector3(1.0f, -1.0f, 0.0f));  //knee front 2
-        c1.Points["Leg"][0].Add(new Vector3(-1.1f, -2.0f, 0.0f));  //foot front 1
-        c1.Points["Leg"][1].Add(new Vector3(1.25f, -2.0f, 0.0f));  //foot front 2
-
-        //Legs 2
-        c1.Points["Leg"].Add(new List<Vector3>());
-        c1.Points["Leg"].Add(new List<Vector3>());
-        c1.Points["Spine"].Add(new List<Vector3>());
-        c1.Points["Spine"][0].Add(new Vector3(0.0f, 0.0f, -1.0f));   //spine
-        c1.Points["Leg"][2].Add(new Vector3(-0.5f, 0.0f, -1.0f));  //hip  front 1
-        c1.Points["Leg"][3].Add(new Vector3(0.5f, 0.0f, -1.0f));   //hip  front 2
-        c1.Points["Leg"][2].Add(new Vector3(-1.0f, -1.0f, -1.0f));  //knee front 1
-        c1.Points["Leg"][3].Add(new Vector3(1.0f, -1.0f, -1.0f));  //knee front 2
-        c1.Points["Leg"][2].Add(new Vector3(-1.25f, -2.0f, -1.0f));  //foot front 1
-        c1.Points["Leg"][3].Add(new Vector3(1.1f, -2.0f, -1.0f));  //foot front 2
-
-        //Legs 3
-        c1.Points["Leg"].Add(new List<Vector3>());
-        c1.Points["Leg"].Add(new List<Vector3>());
-        c1.Points["Spine"].Add(new List<Vector3>());
-        c1.Points["Spine"][1].Add(new Vector3(0.0f, 0.0f, -2.0f));   //spine
-        c1.Points["Leg"][4].Add(new Vector3(-0.5f, 0.0f, -2.0f));  //hip  front 1
-        c1.Points["Leg"][5].Add(new Vector3(0.5f, 0.0f, -2.0f));   //hip  front 2
-        c1.Points["Leg"][4].Add(new Vector3(-1.0f, -1.0f, -2.0f));  //knee front 1
-        c1.Points["Leg"][5].Add(new Vector3(1.0f, -1.0f, -2.0f));  //knee front 2
-        c1.Points["Leg"][4].Add(new Vector3(-1.1f, -2.0f, -2.0f));  //foot front 1
-        c1.Points["Leg"][5].Add(new Vector3(1.25f, -2.0f, -2.0f));  //foot front 2
-
-        //Legs 4
-        c1.Points["Leg"].Add(new List<Vector3>());
-        c1.Points["Leg"].Add(new List<Vector3>());
-        c1.Points["Spine"].Add(new List<Vector3>());
-        c1.Points["Spine"][2].Add(new Vector3(0.0f, 0.0f, -3.0f));   //spine
-        c1.Points["Leg"][6].Add(new Vector3(-0.5f, 0.0f, -3.0f));  //hip  front 1
-        c1.Points["Leg"][7].Add(new Vector3(0.5f, 0.0f, -3.0f));   //hip  front 2
-        c1.Points["Leg"][6].Add(new Vector3(-1.0f, -1.0f, -3.0f));  //knee front 1
-        c1.Points["Leg"][7].Add(new Vector3(1.0f, -1.0f, -3.0f));  //knee front 2
-        c1.Points["Leg"][6].Add(new Vector3(-1.25f, -2.0f, -3.0f));  //foot front 1
-        c1.Points["Leg"][7].Add(new Vector3(1.1f, -2.0f, -3.0f));  //foot front 2
-
-        //tail
-        c1.Points["Tail"].Add(new List<Vector3>());
-        c1.Points["Tail"][0].Add(new Vector3(0.0f, 0.5f, -3.25f));
-        c1.Points["Tail"][0].Add(new Vector3(0.0f, 1.0f, -4.0f));
-    }
-
-    //Add points for creature 2
-    private void Creature2()
-    {
-        c2 = new Creature();
-        //start point
-        c2.Start = new Vector3(0.0f, 0.0f, 0.0f);
-
-        //torso
-        c2.Points["Torso"].Add(new List<Vector3>());
-        c2.Points["Torso"][0].Add(new Vector3(0.0f, 1.0f, 0.0f));   //mid torso
-
-        //neck
-        c2.Points["Neck"].Add(new List<Vector3>());
-        c2.Points["Neck"][0].Add(new Vector3(0.0f, 1.25f, 0.0f));   //neck
-        c2.Points["Neck"][0].Add(new Vector3(0.0f, 1.5f, -0.1f));   //neck
-        c2.Points["Neck"][0].Add(new Vector3(0.0f, 1.75f, -0.2f));   //neck
-        c2.Points["Neck"][0].Add(new Vector3(0.0f, 2.0f, -0.3f));   //neck
-        c2.Points["Neck"][0].Add(new Vector3(0.0f, 2.25f, -0.2f));   //neck
-        c2.Points["Neck"][0].Add(new Vector3(0.0f, 2.5f, -0.1f));   //neck
-
-        //head
-        c2.Points["Head"].Add(new List<Vector3>());
-        c2.Points["Head"][0].Add(new Vector3(0.0f, 3.0f, 0.2f));   //head
-        c2.Points["Head"][0].Add(new Vector3(0.0f, 3.5f, 0.2f));   //head
-        c2.Points["Head"][0].Add(new Vector3(0.0f, 3.0f, 0.5f));   //head
-
-        //arm
-        c2.Points["Arm"].Add(new List<Vector3>());
-        c2.Points["Arm"].Add(new List<Vector3>());
-        c2.Points["Arm"][0].Add(new Vector3(0.75f, 1.0f, 0.0f));   //shoulder 1
-        c2.Points["Arm"][1].Add(new Vector3(-0.75f, 1.0f, 0.0f));  //shoulder 2
-        c2.Points["Arm"][0].Add(new Vector3(1.25f, 0.75f, 0.25f));   //elbo 1
-        c2.Points["Arm"][1].Add(new Vector3(-1.25f, 0.75f, 0.25f));  //elbo 2
-        c2.Points["Arm"][0].Add(new Vector3(1.5f, 0.5f, 0.5f));   //hand 1
-        c2.Points["Arm"][1].Add(new Vector3(-1.5f, 0.5f, 0.5f));  //hand 2
-
-        //Leg1
-        c2.Points["Leg"].Add(new List<Vector3>());
-        c2.Points["Leg"].Add(new List<Vector3>());
-        c2.Points["Leg"][0].Add(new Vector3(-0.5f, 0.0f, 0.0f));  //hip  front 1
-        c2.Points["Leg"][1].Add(new Vector3(0.5f, 0.0f, 0.0f));   //hip  front 2
-        c2.Points["Leg"][0].Add(new Vector3(-1.0f, -1.0f, 0.0f));  //knee front 1
-        c2.Points["Leg"][1].Add(new Vector3(1.0f, -1.0f, 0.0f));  //knee front 2
-        c2.Points["Leg"][0].Add(new Vector3(-1.1f, -2.0f, 0.0f));  //foot front 1
-        c2.Points["Leg"][1].Add(new Vector3(1.25f, -2.0f, 0.0f));  //foot front 2
-
-        //tail
-        c2.Points["Tail"].Add(new List<Vector3>());
-        c2.Points["Tail"][0].Add(new Vector3(0.0f, 0.0f, -0.25f));
-        c2.Points["Tail"][0].Add(new Vector3(0.0f, 0.5f, -1.0f));
-        c2.Points["Tail"][0].Add(new Vector3(0.0f, 1.0f, -1.5f));
-        c2.Points["Tail"][0].Add(new Vector3(0.0f, 1.5f, -1.75f));
-        c2.Points["Tail"][0].Add(new Vector3(0.0f, 2.0f, -1.7f));
-        c2.Points["Tail"][0].Add(new Vector3(0.0f, 2.5f, -1.5f));
-    }
-
-    //Add points for Creature 3
-    private void Creature3()
-    {
-        c3 = new Creature();
-        //start point
-        c3.Start = new Vector3(0.0f, 0.0f, 0.0f);
-
-        //neck
-        c3.Points["Neck"].Add(new List<Vector3>());
-        c3.Points["Neck"][0].Add(new Vector3(0.0f, 0.5f, 0.0f));   //neck
-        c3.Points["Neck"][0].Add(new Vector3(0.0f, 0.75f, -0.1f));   //neck
-        c3.Points["Neck"][0].Add(new Vector3(0.0f, 1.0f, -0.2f));   //neck
-
-        //head
-        c3.Points["Head"].Add(new List<Vector3>());
-        c3.Points["Head"][0].Add(new Vector3(0.0f, 1.0f, 0.2f));   //head
-        c3.Points["Head"][0].Add(new Vector3(0.0f, 1.5f, 0.2f));   //head
-        c3.Points["Head"][0].Add(new Vector3(0.0f, 1.0f, 0.5f));   //head
-        c3.Points["Head"][0].Add(new Vector3(0.0f, 1.0f, 1.0f));   //head
-
-        //Leg1
-        c3.Points["Leg"].Add(new List<Vector3>());
-        c3.Points["Leg"].Add(new List<Vector3>());
-        c3.Points["Leg"][0].Add(new Vector3(-0.5f, 0.0f, 0.0f));  //hip  front 1
-        c3.Points["Leg"][1].Add(new Vector3(0.5f, 0.0f, 0.0f));   //hip  front 2
-        c3.Points["Leg"][0].Add(new Vector3(-1.0f, -1.0f, 0.0f));  //knee front 1
-        c3.Points["Leg"][1].Add(new Vector3(1.0f, -1.0f, 0.0f));  //knee front 2
-        c3.Points["Leg"][0].Add(new Vector3(-1.1f, -2.0f, 0.0f));  //foot front 1
-        c3.Points["Leg"][1].Add(new Vector3(1.25f, -2.0f, 0.0f));  //foot front 2
-
-        //Legs 2
-        c3.Points["Leg"].Add(new List<Vector3>());
-        c3.Points["Leg"].Add(new List<Vector3>());
-        c3.Points["Spine"].Add(new List<Vector3>());
-        c3.Points["Spine"][0].Add(new Vector3(0.0f, -0.2f, -0.5f));   //spine
-        c3.Points["Spine"][0].Add(new Vector3(0.0f, -0.4f, -1.5f));   //spine
-        c3.Points["Spine"][0].Add(new Vector3(0.0f, -0.2f, -2.5f));   //spine
-        c3.Points["Leg"][2].Add(new Vector3(-0.5f, -0.25f, -2.5f));   //hip  front 2
-        c3.Points["Leg"][3].Add(new Vector3(0.5f, -0.25f, -2.5f));   //hip  front 2
-        c3.Points["Leg"][2].Add(new Vector3(-1.0f, -1.0f, -2.5f));  //knee front 1
-        c3.Points["Leg"][3].Add(new Vector3(1.0f, -1.0f, -2.5f));  //knee front 2
-        c3.Points["Leg"][2].Add(new Vector3(-1.25f, -2.0f, -2.5f));  //foot front 1
-        c3.Points["Leg"][3].Add(new Vector3(1.1f, -2.0f, -2.5f));  //foot front 2
-
-        //tail
-        c3.Points["Tail"].Add(new List<Vector3>());
-        c3.Points["Tail"][0].Add(new Vector3(0.0f, 0.5f, -3.0f));
-    }
+    //UI fields
+    Slider HeadsSlider;
+    Dropdown HeadType;
+    Slider NeckSlider;
+    Slider TorsoSlider;
+    Dropdown TorsoDropdown;
+    Slider ArmSlider;
+    Dropdown ArmDropdown;
+    Slider LegSlider;
+    Dropdown LegSize;
+    Dropdown LegType;
+    Slider TailSlider;
+    Slider TailLengthSlider;
+    Dropdown TailType;
+    Slider DetailSlider;
 
     // Use this for initialization
     void Start()
     {
-        Creature1();
-        Creature2();
-        Creature3();
+        HeadsSlider = GameObject.Find("Heads_sldr").GetComponent<Slider>();
+        HeadType = GameObject.Find("HeadType_drpdwn").GetComponent<Dropdown>();
+        NeckSlider = GameObject.Find("neckLength_sldr").GetComponent<Slider>();
+        TorsoSlider = GameObject.Find("torsoSize_slider").GetComponent<Slider>();
+        TorsoDropdown = GameObject.Find("torso_drpdwn").GetComponent<Dropdown>();
+        ArmSlider = GameObject.Find("Arm_slider").GetComponent<Slider>();
+        ArmDropdown = GameObject.Find("Arm_drpdwn").GetComponent<Dropdown>();
+        LegSlider = GameObject.Find("Legs_sldr").GetComponent<Slider>();
+        LegSize = GameObject.Find("LegSize_drpdwn").GetComponent<Dropdown>();
+        LegType = GameObject.Find("LegType_drpdwn").GetComponent<Dropdown>();
+        TailSlider = GameObject.Find("Tail_sldr").GetComponent<Slider>();
+        TailLengthSlider = GameObject.Find("TailLength_sldr").GetComponent<Slider>();
+        TailType = GameObject.Find("Tail_drpdwn").GetComponent<Dropdown>();
+        DetailSlider = GameObject.Find("detail_sldr").GetComponent<Slider>();
+        RandomCreature();
+    }
+
+    public void RandomCreature()
+    {
+        c1.Randomise();
+        GenerateCreature();
+        HeadsSlider.value = c1.Head;
+        HeadType.value = (int)c1.HeadType;
+        NeckSlider.value = c1.neckLength;
+        TorsoSlider.value = c1.TorsoSize;
+        TorsoDropdown.value = (int)c1.TorsoType;
+        ArmSlider.value = c1.ArmPairs;
+        ArmDropdown.value = (int)c1.ArmSize;
+        LegSlider.value = c1.LegPairs;
+        LegSize.value = (int)c1.LegSize;
+        LegType.value = (int)c1.LegType;
+        TailSlider.value = c1.Tail;
+        TailLengthSlider.value = c1.TailLength;
+        TailType.value = (int)c1.TailType;
+    }
+
+    public void GenerateButton()
+    {
+        c1.Head = (int)HeadsSlider.value;
+        c1.HeadType = (Creature.TypeHead)HeadType.value;
+        c1.neckLength = (int)NeckSlider.value;
+        c1.TorsoSize = (int)TorsoSlider.value;
+        c1.TorsoType = (Creature.TypeTorso)TorsoDropdown.value;
+        c1.ArmPairs = (int)ArmSlider.value;
+        c1.ArmSize = (Creature.Size)ArmDropdown.value;
+        c1.LegPairs = (int)LegSlider.value;
+        c1.LegSize = (Creature.Size)LegSize.value;
+        c1.LegType = (Creature.Type)LegType.value;
+        c1.Tail = (int)TailSlider.value;
+        c1.TailLength = (int)TailLengthSlider.value;
+        c1.TailType = (Creature.TypeTail)TailType.value;
+
+        GenerateCreature();
+    }
+
+    void GenerateCreature()
+    {
+        //Generate Creature1
+        c1.Generate();
         foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
         {
-            //Generate Creature1
-            g.GetComponent<Metaballs>().Generate(c2);
+            g.GetComponent<Metaballs>().Generate(c1);
         }
     }
 
     private void Update()
     {
-        //Choose creature to generate
-        //if (Input.GetKeyDown(KeyCode.Alpha1))
-        //{
-        //    foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
-        //    {
-        //        //Generate Creature1
-        //        g.GetComponent<Metaballs>().Generate(c1);
-        //    }
-        //}
-        //else if (Input.GetKeyDown(KeyCode.Alpha2))
-        //{
-        //    foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
-        //    {
-        //        //Generate Creature1
-        //        g.GetComponent<Metaballs>().Generate(c2);
-        //    }
-        //}
-        //else if (Input.GetKeyDown(KeyCode.Alpha3))
-        //{
-        //    foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
-        //    {
-        //        //Generate Creature1
-        //        g.GetComponent<Metaballs>().Generate(c3);
-        //    }
-        //}
-
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.I))
         {
             foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
             {
                 g.transform.Rotate(Vector3.left * turnSpeed * Time.deltaTime, Space.World);
             }
         }
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.K))
         {
             foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
             {
                 g.transform.Rotate(Vector3.right * turnSpeed * Time.deltaTime, Space.World);
             }
         }
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.J))
         {
             foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
             {
                 g.transform.Rotate(Vector3.up * turnSpeed * Time.deltaTime, Space.World);
             }
         }
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.L))
         {
             foreach (GameObject g in GameObject.FindGameObjectsWithTag("creature"))
             {
@@ -268,5 +127,20 @@ public class Gm : MonoBehaviour
             }
         }
 
+        Vector3 newCamPos = camera.transform.position;
+        if (Input.GetKey(KeyCode.W))
+        {
+              newCamPos.z -= 10.0f * Time.deltaTime;
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            newCamPos.z += 10.0f * Time.deltaTime;
+        }
+        camera.transform.position = newCamPos;
+    }
+
+    public void DetailChange()
+    {
+        Metaballs.detail = DetailSlider.value;
     }
 }
