@@ -5,16 +5,11 @@ using UnityEngine.UI;
 
 public class UIMaster : MonoBehaviour
 {
+    [SerializeField]
     Text theText;
-
-    void Start()
-    {
-        theText = GetComponentInChildren<Text>();
-    }
-
         public void OnValueChanged()
     {
-        theText.text = ": " + GetComponent<Slider>().value;
+        theText.text = "" + GetComponent<Slider>().value;
     }
 
 }

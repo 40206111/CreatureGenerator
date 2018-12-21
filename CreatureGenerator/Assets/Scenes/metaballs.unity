@@ -316,6 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd0c3832128fd674fb8986b687d4b6b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  theText: {fileID: 467314010}
 --- !u!114 &37415491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -514,6 +515,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd0c3832128fd674fb8986b687d4b6b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  theText: {fileID: 211971237}
 --- !u!114 &53544401
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1137,6 +1139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd0c3832128fd674fb8986b687d4b6b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  theText: {fileID: 2068800033}
 --- !u!114 &124623578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4698,6 +4701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd0c3832128fd674fb8986b687d4b6b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  theText: {fileID: 782754971}
 --- !u!114 &715814348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6554,6 +6558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd0c3832128fd674fb8986b687d4b6b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  theText: {fileID: 402141221}
 --- !u!1 &1029045390
 GameObject:
   m_ObjectHideFlags: 0
@@ -6681,6 +6686,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd0c3832128fd674fb8986b687d4b6b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  theText: {fileID: 250316766}
 --- !u!114 &1048367021
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7613,6 +7619,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd0c3832128fd674fb8986b687d4b6b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  theText: {fileID: 1702008783}
 --- !u!114 &1201071650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11031,7 +11038,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0
+  m_Text: 1
 --- !u!222 &1876514874
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11129,6 +11136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd0c3832128fd674fb8986b687d4b6b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  theText: {fileID: 1876514873}
 --- !u!114 &1910912470
 MonoBehaviour:
   m_ObjectHideFlags: 0
