@@ -16,8 +16,7 @@ public class Metaballs : MonoBehaviour
     [SerializeField]
     private float excess = 2;
     //Amount of detail in creature
-    [SerializeField]
-    float detail = 1.0f;
+    public static float detail = 0.2f;
 
     //Method to make meta balls
     private void MakeBalls(Creature c)
@@ -126,9 +125,17 @@ public class Metaballs : MonoBehaviour
         //Make grid
         GenerateGrid(difference);
 
-        //New mesh
-        GetComponent<MeshFilter>().mesh = mesh = new Mesh();
-        mesh.name = "creature bod";
+        if (mesh == null)
+        {
+            //New mesh
+            GetComponent<MeshFilter>().mesh = mesh = new Mesh();
+            mesh.name = "creature bod";
+        }
+        else
+        {
+            GetComponent<MeshFilter>().mesh.Clear();
+            mesh = GetComponent<MeshFilter>().mesh;
+        }
         //Generate mesh
         MarchingCubes.GenerateMesh(gridPoints, gridItterations, ref mesh);
         //recalculate normals

@@ -6,30 +6,30 @@ using System;
 public class Creature
 {
     //Enum's for creature types
-    private enum Type { Insect, Mammal };
-    private enum TypeTail { Horse, Dog, Monkey, Cat };
-    private enum TypeTorso { Straight, Hunch };
-    private enum Size { Small, Medium, Large, XL };
-    private enum TypeHead { Monkey, Dog };
+    public enum Type { Insect, Mammal };
+    public enum TypeTail { Horse, Dog, Monkey, Cat };
+    public enum TypeTorso { Straight, Hunch };
+    public enum Size { Small, Medium, Large, XL };
+    public enum TypeHead { Monkey, Dog };
 
     //main points of creature
     public Dictionary<string, List<List<Vector3>>> Points = new Dictionary<string, List<List<Vector3>>>();
     public Vector3 Start = new Vector3(0.0f, 0.0f, 0.0f);
 
     //Parameters
-    private int Head = 3;
-    private TypeHead HeadType = TypeHead.Dog;
-    private int neckLength = 4;
-    private int TorsoSize = 8;
-    private TypeTorso TorsoType = TypeTorso.Straight;
-    private int ArmPairs = 2;
-    private Size ArmSize = Size.Small;
-    private int LegPairs = 1;
-    private Type LegType = Type.Insect;
-    private Size LegSize = Size.Medium;
-    private int Tail =7;
-    private int TailLength = 20;
-    private TypeTail TailType = TypeTail.Monkey;
+    public int Head = 3;
+    public TypeHead HeadType = TypeHead.Dog;
+    public int neckLength = 4;
+    public int TorsoSize = 8;
+    public TypeTorso TorsoType = TypeTorso.Straight;
+    public int ArmPairs = 2;
+    public Size ArmSize = Size.Small;
+    public int LegPairs = 1;
+    public Type LegType = Type.Insect;
+    public Size LegSize = Size.Medium;
+    public int Tail = 7;
+    public int TailLength = 20;
+    public TypeTail TailType = TypeTail.Monkey;
 
     //constructor
     public Creature()
@@ -47,6 +47,13 @@ public class Creature
     //Method to generate creature points
     public void Generate()
     {
+        Points["Torso"].Clear();
+        Points["Head"].Clear();
+        Points["Neck"].Clear();
+        Points["Arm"].Clear();
+        Points["Leg"].Clear();
+        Points["Tail"].Clear();
+        Points["Spine"].Clear();
         MakeTorso();
         MakeArms();
         MakeHeads();
@@ -67,6 +74,7 @@ public class Creature
         //neck Length
         neckLength = rnd.Next(0, 20);
 
+        //Make sure all heads are visable
         if (Head != 1 && neckLength < Head * 3)
         {
             neckLength = (int)(Head * 1.5f);
@@ -84,6 +92,7 @@ public class Creature
         //arm size
         ArmSize = (Size)rnd.Next(0, 3);
 
+        //Stop arms intersecting with legs
         if (TorsoSize < 5 && ArmPairs > 0 && LegType == Type.Insect)
         {
             TorsoSize = 8;
@@ -140,7 +149,7 @@ public class Creature
             Points["Arm"].Add(new List<Vector3>());
             Points["Arm"].Add(new List<Vector3>());
             //get shoulders
-            int index = Points["Torso"][0].Count - (i *2) - 1;
+            int index = Points["Torso"][0].Count - (i * 2) - 1;
             Vector3 thePoint = Points["Torso"][0][index];
             Vector3 altPoint = Points["Torso"][0][index - 1];
 
@@ -210,25 +219,29 @@ public class Creature
         {
 
             // make start point
-            if (Points["Torso"][0].Count == 0)
+            if (Points["Torso"].Count > 0)
             {
-                thePoint = Start;
+                thePoint = Points["Torso"][0][Points["Torso"][0].Count - 1];
             }
             else
             {
-                thePoint = Points["Torso"][0][Points["Torso"][0].Count - 1];
-                if (ArmPairs > 0)
-                {
-                    thePoint.x = (thePoint.x + Points["Torso"][0][Points["Torso"][0].Count - 2].x) / 2;
-                }
+                thePoint = Start;
             }
-
+            if (ArmPairs > 0)
+            {
+                thePoint.x = (thePoint.x + Points["Torso"][0][Points["Torso"][0].Count - 2].x) / 2;
+            }
+            
+            //Initialise necks and heads
             Points["Neck"].Add(new List<Vector3>());
             Points["Head"].Add(new List<Vector3>());
+
+            //calculate rotation
             float angle = (Mathf.PI / (Head + 1)) * (i + 1);
             Vector2 dir = new Vector2(1, 0);
             dir = new Vector2(dir.x * Mathf.Cos(angle) - dir.y * Mathf.Sin(angle), dir.x * Mathf.Sin(angle) + dir.y * Mathf.Cos(angle));
 
+            //Change necks depending on torso type
             if (TorsoType == TypeTorso.Hunch)
             {
                 thePoint.z += 0.5f;
@@ -247,6 +260,7 @@ public class Creature
                 Points["Neck"][i].Add(thePoint);
             }
 
+            //Create Head based on headtype
             switch (HeadType)
             {
                 case TypeHead.Monkey:
@@ -259,7 +273,7 @@ public class Creature
                     thePoint.x -= 0.4f;
                     Points["Head"][i].Add(thePoint);
                     thePoint.y += 0.5f;
-                    thePoint.z -= 0.3f;
+                    thePoint.z -= 0.1f;
                     thePoint.x += 0.2f;
                     Points["Head"][i].Add(thePoint);
                     break;
@@ -283,7 +297,7 @@ public class Creature
     private void MakeTorso()
     {
 
-        if (TorsoSize == 0 && ArmPairs == 0){return;}
+        if (TorsoSize == 0 && ArmPairs == 0) { return; }
 
         //initialise torso list
         Points["Torso"].Add(new List<Vector3>());
@@ -336,7 +350,7 @@ public class Creature
                 //create hunched torso points
                 for (int i = 0; i < TorsoSize - amount; ++i)
                 {
-                    thePoint.y += 10.4f;
+                    thePoint.y += 0.5f;
                     thePoint.z += 0.3f * Mathf.Sin(((float)i / (float)(TailLength - 1)) * Mathf.PI / 8.0f);
                     Points["Torso"][0].Add(thePoint);
                 }
